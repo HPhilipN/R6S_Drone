@@ -9,7 +9,6 @@
 #include <rcController.h>
 
 
-
 int main(){
     
     gpioExport(7);
@@ -17,7 +16,7 @@ int main(){
     gpioExport(9);
     gpioExport(10);
     
-
+    
 
 
     

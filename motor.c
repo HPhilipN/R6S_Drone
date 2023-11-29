@@ -22,6 +22,8 @@ void motorLeftFWD()
     //right motor
     setValue(GPIO10, hi);
     setValue(GPIO9, lo);
+    //pwm(motor speed)
+
 }
 
 void motorRightFWD()
@@ -33,6 +35,7 @@ void motorRightFWD()
     //right motor
     setValue(GPIO10, hi);
     setValue(GPIO9, lo);
+    //pwm(motor speed)
 }
 
 void driveForward()
@@ -44,6 +47,7 @@ void driveForward()
     //right motor
     setValue(GPIO10, hi);
     setValue(GPIO9, lo);
+    //pwm(motor speed)
 }
 
 void driveReverse()
@@ -55,8 +59,11 @@ void driveReverse()
     //right motor
     setValue(GPIO10, lo);
     setValue(GPIO9, hi);
+    //pwm(motor speed)
 }
 
+//TODO function that handles motor speed 
+//cause these shitty ass motors might be running at different speeds
 void motorspeed(){
 
 }

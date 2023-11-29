@@ -7,20 +7,6 @@
 #include <fcntl.h>
 #include <ctrlgpio.h>
 
-//gpio sys directory
-#define pinPath "/sys/class/gpio"
-#define pinExport "/export"
-#define pinUnExport "/unexport"
-#define pinValue "/value"
-#define pinDir "/direction"
-#define pinEdge "/edge"
-
-//pin values
-#define dirIn "in"
-#define dirOut "out"
-#define hi "0"
-#define lo "0"
-
 
 // //write to file 
 // static void writeNreadToFile(const char* fileName, const char* value)
@@ -80,6 +66,14 @@ int setValue(int gpio_pin, const char* value)
 	return readNwriteFile(path_str, value);
 }
 
+int setEdge(int gpio_pin, const char* edge)
+{
+	char path_str[40];
+	sprintf(path_str, "%s/gpio%d%s", pinPath, gpio_pin, edge);
+	return readNwriteFile(path_str, edge);
+}
+
+
 int pinFdtoVal(int gpio_pin)
 {
 	int fd;
@@ -88,7 +82,7 @@ int pinFdtoVal(int gpio_pin)
 	fd = open(fname, O_RDONLY | O_NONBLOCK);
 	if(fd < 0)
 		printf("could not open file %s...%d\r\n", fname, fd);
-		
+
 	return fd; 
 }
 

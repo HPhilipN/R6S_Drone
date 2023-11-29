@@ -8,6 +8,12 @@
 #define GPIO12 "/sys/class/gpio/gpio12"
 #define GPIO13 "/sys/class/gpio/gpio13"
 
+//pin values
+#define dirIn "in"
+#define dirOut "out"
+#define hi "1"
+#define lo "0"
+
 void motorLeftFWD();
 
 void motorRightFWD();
@@ -15,3 +21,5 @@ void motorRightFWD();
 void driveForward();
 
 void driveReverse();
+
+void motorspeed();

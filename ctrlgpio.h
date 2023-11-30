@@ -14,6 +14,8 @@
 #define hi "1"
 #define lo "0"
 
+//gpio pin helper functions
+
 static int readNwriteFile(const char *fname, const char *wdata);
 
 int gpioExport(int gpio_pin);
@@ -28,6 +30,20 @@ int setEdge(int gpio_pin, const char* edge);
 
 int pinFdtoVal(int gpio_pin);
 
-//ToDo pwm function needed
+//pwm helper functions
 
-int setPWM(int gpio_pin, int val);
+int pwmExport(int pwm_pin);
+
+int pwmUnExport(int pwm_pin);
+
+int SetPeriod(int pwm_val, unsigned int period);
+
+int SetDutyCycle(int pwm_val, unsigned int duty_cycle);
+
+int pwmEnable(int pwm_pin);
+
+int pwmDisable(int pwm_pin);
+
+//pwm controllor
+
+int pwmController(int pwm_val, unsigned int freq, unsigned int duty_cycle);

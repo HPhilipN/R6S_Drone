@@ -15,55 +15,69 @@
 
 void motorLeftFWD()
 {
-    printf("LEFT");
+    printf("LEFT\n");
     //left motor
-    setValue(GPIO7, hi);
-    setValue(GPIO8, lo);
+    setValue(7, hi);
+    setValue(8, lo);
     //right motor
-    setValue(GPIO10, hi);
-    setValue(GPIO9, lo);
+    setValue(10, hi);
+    setValue(9, lo);
     //pwm(motor speed)
-
+    //L
+    pwmController();
+    //R
+    pwmController();
 }
 
 void motorRightFWD()
 {
-    printf("Right");
+    printf("Right\n");
     //left motor
-    setValue(GPIO7, hi);
-    setValue(GPIO8, lo);
+    setValue(7, hi);
+    setValue(8, lo);
     //right motor
-    setValue(GPIO10, hi);
-    setValue(GPIO9, lo);
+    setValue(10, hi);
+    setValue(9, lo);
     //pwm(motor speed)
+    //pwmController();
+    //pwmController();
 }
 
 void driveForward()
 {
-    printf("FWD");
+    printf("FWD\n");
     //left motor
-    setValue(GPIO7, hi);
-    setValue(GPIO8, lo);
+    setValue(7, hi);
+    setValue(8, lo);
     //right motor
-    setValue(GPIO10, hi);
-    setValue(GPIO9, lo);
+    setValue(10, hi);
+    setValue(9, lo);
     //pwm(motor speed)
+    //pwmController();
+    //pwmController();
 }
 
 void driveReverse()
 {
-    printf("RVRSE+1");
+    printf("RVRSE\n");
     //left motor
-    setValue(GPIO7, hi);
-    setValue(GPIO8, lo);
+    setValue(7, hi);
+    setValue(8, lo);
     //right motor
-    setValue(GPIO10, lo);
-    setValue(GPIO9, hi);
+    setValue(10, lo);
+    setValue(9, hi);
     //pwm(motor speed)
+    //pwmController();
+    //pwmController();
 }
 
-//TODO function that handles motor speed 
-//cause these shitty ass motors might be running at different speeds
-void motorspeed(){
-
+void stop()
+{
+    printf("STOP\n");
+    //left motor
+    setValue(7, lo);
+    setValue(8, lo);
+    //right motor
+    setValue(10, lo);
+    setValue(9, lo);
 }

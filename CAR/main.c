@@ -7,9 +7,9 @@
 // #include <conio.h>
 #include <curses.h>
 
-#include <motor.h>
-#include <ctrlgpio.c>
-#include <rcController.h> 
+#include "motor.h"
+#include "ctrlgpio.h"
+#include "rcController.h"
 
 // its not brokey we just tryna begin it
 // also go make the main file :grin: yess

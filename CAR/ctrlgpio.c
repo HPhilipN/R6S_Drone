@@ -5,7 +5,7 @@
 #include <unistd.h>
 #include <sys/epoll.h>
 #include <fcntl.h>
-#include <ctrlgpio.h>
+#include "ctrlgpio.h"
 
 
 // //write to file 

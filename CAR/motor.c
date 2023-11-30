@@ -7,8 +7,8 @@
 #include <sys/epoll.h>
 #include <fcntl.h>
 
-#include <motor.h>
-#include <ctrlgpio.h>
+#include "motor.h"
+#include "ctrlgpio.h"
 
 //pin 10 & 8 clockwise
 //pin 7 & 9 counter clockwise
@@ -24,9 +24,9 @@ void motorLeftFWD()
     setValue(9, lo);
     //pwm(motor speed)
     //L
-    pwmController();
+    //pwmController();
     //R
-    pwmController();
+    //pwmController();
 }
 
 void motorRightFWD()

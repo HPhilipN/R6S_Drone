@@ -13,6 +13,13 @@
 #define activelo "LOW"
 #define hi "1"
 #define lo "0"
+//pwm  guh
+#define pinPwmPrefix "/sys/class/pwm/pwmchip0"
+#define pinPwmExport pinPwmPrefix "/export"
+#define pinPwmUnexport pinPwmPrefix "/unexport"
+#define pinPwmPeriod pinPwmPrefix "/pwm%d/period"
+#define pinPwmDutyCycle pinPwmPrefix "/pwm%d/duty_cycle"
+#define pinPwmEnable pinPwmPrefix "/pwm%d/enable"
 
 //gpio pin helper functions
 
@@ -46,4 +53,4 @@ int pwmDisable(int pwm_pin);
 
 //pwm controllor
 
-int pwmController(int pwm_val, unsigned int freq, unsigned int duty_cycle);
+void pwmController(int pwm_val, unsigned int freq, unsigned int duty_cycle);

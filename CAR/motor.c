@@ -33,11 +33,11 @@ void motorRightFWD()
 {
     printf("Right\n");
     //left motor
-    setValue(7, hi);
-    setValue(8, lo);
+    setValue(7, lo);
+    setValue(8, hi);
     //right motor
-    setValue(10, hi);
-    setValue(9, lo);
+    setValue(10, lo);
+    setValue(9, hi);
     //pwm(motor speed)
     //pwmController();
     //pwmController();
@@ -47,8 +47,8 @@ void driveForward()
 {
     printf("FWD\n");
     //left motor
-    setValue(7, hi);
-    setValue(8, lo);
+    setValue(7, lo);
+    setValue(8, hi);
     //right motor
     setValue(10, hi);
     setValue(9, lo);

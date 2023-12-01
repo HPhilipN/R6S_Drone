@@ -1,7 +1,9 @@
 CC = gcc
 CFLAGS = -Wall -Wextra -std=c99
-
+LDFLAGS = -L/path/to/ncurses/library
+LDLIBS = -lncurses
 all: main
+
 
 main: main.o ctrlgpio.o motor.o rcController.o
 	$(CC) $(CFLAGS) -o main main.o ctrlgpio.o motor.o rcController.o -lncurses

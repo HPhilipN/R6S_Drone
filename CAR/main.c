@@ -83,7 +83,7 @@ int main(){
     initscr();  // Initialize ncurses
     cbreak();   // Line buffering disabled
     noecho();   // Don't display characters as they are typed
-    timeout(0); // Non-blocking keyboard input
+    timeout(-1); // blocking keyboard input
     int key = 0;
 
     //exports the pins /sys/class/gpio/

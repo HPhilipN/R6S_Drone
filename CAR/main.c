@@ -16,21 +16,26 @@
 #define SIZE 4
 // pressed boolean array, 0123 -> wasd
 bool pressed[SIZE] = {0}; 
+bool motors = false;
 
 // Function to handle key presses
 void handleKeyPress(int key) {
     switch (key) {
         case 'w':
             pressed[0] = true;
+            motors = true;
             break;
         case 'a':
             pressed[1] = true;
+            motors = true;
             break;
         case 's':
             pressed[2] = true;
+            motors = true;
             break;
         case 'd':
             pressed[3] = true;
+            motors = true;
             break;
         default:
             break;
@@ -39,18 +44,29 @@ void handleKeyPress(int key) {
 
 // Function to handle key releases
 void handleKeyRelease(int key) {
+
+    if(motors){
+        stop();
+        motors = false;
+        printw("STOP\n");
+    }
+
     switch (key) {
         case 'w':
             pressed[0] = false;
+            stop();
             break;
         case 'a':
             pressed[1] = false;
+            stop();
             break;
         case 's':
             pressed[2] = false;
+            stop();
             break;
         case 'd':
             pressed[3] = false;
+            stop();
             break;
         default:
             break;
@@ -62,6 +78,8 @@ void handleKeyRelease(int key) {
 // wait i mean makefile ok
 int main(){
     
+    bool postMotor = false;
+
     initscr();  // Initialize ncurses
     cbreak();   // Line buffering disabled
     noecho();   // Don't display characters as they are typed
@@ -89,15 +107,21 @@ int main(){
     // user input to move both motors
     char input;
     int end = 0;
+    bool keyRelease = false;
 
     while(1){
+
         key = getch(); // Get keyboard input
 
         if (key != ERR) {
             // Key is pressed
             handleKeyPress(key);
-        } else {
-            // No key is pressed
+
+            if(!postMotor && motors){
+                printw("+1");
+                refresh();
+            }
+        }else{
             handleKeyRelease('w');
             handleKeyRelease('s');
             handleKeyRelease('a');
@@ -107,35 +131,43 @@ int main(){
         // Perform actions based on key states
         if (pressed[0]) {
             // Move drone forward
+            printw("FWD\n");
+            refresh();
             driveForward();
-            printw("Moving forward\n");
+
         }
 
         if (pressed[1]) {
             // Move drone left
+            printw("LEFT\n");
+            refresh();
             motorLeftFWD();
-            printw("Moving backward\n");
         }
 
         if (pressed[2]) {
             // Move drone backward
+            printw("RVRSE\n");
+            refresh();
             driveReverse();
-            printw("Moving left\n");
         }
 
         if (pressed[3]) {
             // Move drone right
+            printw("Right\n");
+            refresh();
             motorRightFWD();
-            printw("Moving right\n");
         }
 
-        refresh(); // Refresh screen
+        // refresh(); // Refresh screen
 
         usleep(10000); // Sleep for a short duration to control loop speed
     }
 
     endwin(); // End ncurses
-
+    gpioUnExport(7);
+    gpioUnExport(8);
+    gpioUnExport(9);
+    gpioUnExport(10);
     // while(1){
         
     //     input = getchar();

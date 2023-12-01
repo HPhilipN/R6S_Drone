@@ -23,3 +23,5 @@ void driveForward();
 void driveReverse();
 
 void motorspeed();
+
+void stop();

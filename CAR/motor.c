@@ -15,7 +15,7 @@
 
 void motorLeftFWD()
 {
-    printf("LEFT\n");
+    
     //left motor
     setValue(7, hi);
     setValue(8, lo);
@@ -31,7 +31,7 @@ void motorLeftFWD()
 
 void motorRightFWD()
 {
-    printf("Right\n");
+
     //left motor
     setValue(7, lo);
     setValue(8, hi);
@@ -45,7 +45,7 @@ void motorRightFWD()
 
 void driveForward()
 {
-    printf("FWD\n");
+
     //left motor
     setValue(7, lo);
     setValue(8, hi);
@@ -59,7 +59,7 @@ void driveForward()
 
 void driveReverse()
 {
-    printf("RVRSE\n");
+    
     //left motor
     setValue(7, hi);
     setValue(8, lo);
@@ -73,7 +73,7 @@ void driveReverse()
 
 void stop()
 {
-    printf("STOP\n");
+
     //left motor
     setValue(7, lo);
     setValue(8, lo);

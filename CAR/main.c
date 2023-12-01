@@ -13,9 +13,9 @@
 #include "ctrlgpio.h"
 #include "rcController.h"
 
-const int size = 4;
+#define SIZE 4
 // pressed boolean array, 0123 -> wasd
-bool pressed[size] = {0}; 
+bool pressed[SIZE] = {0}; 
 
 // Function to handle key presses
 void handleKeyPress(int key) {

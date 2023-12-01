@@ -112,7 +112,7 @@ int main(){
     while(1){
 
         key = getch(); // Get keyboard input
-
+        printf("guh");
         if (key != ERR) {
             // Key is pressed
             handleKeyPress(key);

@@ -83,7 +83,7 @@ int main(){
     initscr();  // Initialize ncurses
     cbreak();   // Line buffering disabled
     noecho();   // Don't display characters as they are typed
-    timeout(-1); // blocking keyboard input
+    timeout(64); // blocking keyboard input
     int key = 0;
 
     //exports the pins /sys/class/gpio/
@@ -112,15 +112,10 @@ int main(){
     while(1){
 
         key = getch(); // Get keyboard input
-        printf("guh");
         if (key != ERR) {
             // Key is pressed
             handleKeyPress(key);
 
-            if(!postMotor && motors){
-                printw("+1");
-                refresh();
-            }
         }else{
             handleKeyRelease('w');
             handleKeyRelease('s');

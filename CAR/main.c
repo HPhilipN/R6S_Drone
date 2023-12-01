@@ -160,7 +160,7 @@ int main(){
 
         // refresh(); // Refresh screen
 
-        usleep(10000); // Sleep for a short duration to control loop speed
+        //usleep(10000); // Sleep for a short duration to control loop speed
     }
 
     endwin(); // End ncurses

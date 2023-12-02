@@ -118,7 +118,6 @@ int main(){
         if (key != ERR) {
             // Key is pressed
             handleKeyPress(key);
-            usleep(100000);
         }else{
             handleKeyRelease('w');
             handleKeyRelease('s');

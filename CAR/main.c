@@ -54,22 +54,25 @@ void handleKeyRelease(int key) {
     switch (key) {
         case 'w':
             pressed[0] = false;
-            stop();
             break;
         case 'a':
             pressed[1] = false;
-            stop();
             break;
         case 's':
             pressed[2] = false;
-            stop();
             break;
         case 'd':
             pressed[3] = false;
-            stop();
             break;
         default:
             break;
+    }
+
+    if(!pressed[0] && !pressed[1] && !pressed[2] && !pressed[3] && motors){
+        stop();
+        motors = false;
+        printw("STOP\n");
+        refresh();
     }
 }
 

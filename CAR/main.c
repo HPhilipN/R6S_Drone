@@ -45,11 +45,11 @@ void handleKeyPress(int key) {
 // Function to handle key releases
 void handleKeyRelease(int key) {
 
-    if(motors){
-        stop();
-        motors = false;
-        printw("STOP\n");
-    }
+    // if(motors){
+    //     stop();
+    //     motors = false;
+    //     printw("STOP\n");
+    // }
 
     switch (key) {
         case 'w':
@@ -118,7 +118,7 @@ int main(){
         if (key != ERR) {
             // Key is pressed
             handleKeyPress(key);
-
+            usleep(100000);
         }else{
             handleKeyRelease('w');
             handleKeyRelease('s');

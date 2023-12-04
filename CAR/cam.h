@@ -1,9 +1,9 @@
 // cam.h
-#ifndef CAME_H
-#define CAME_H
+#ifndef CAM_H
+#define CAM_H
 
 void initialize_camera();
 void capture_image();
 void release_camera();
 
-#endif // CAME_H
+#endif // CAM_H

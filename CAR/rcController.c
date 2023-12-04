@@ -18,8 +18,8 @@ static bool getStop(){
     return temp;
 }
 
-void* pollController(void *arg){
-    while(!getStop){
+void* pollController(void*){
+    while(!getStop()){
         SDL_Event sdlEvent;
 
         while(SDL_PollEvent(&sdlEvent)){
@@ -52,5 +52,5 @@ void startController(){
 
 void stopController(){
     setStop(true);
-    pthread_join(&controllerThread, NULL);
+    pthread_join(controllerThread, NULL);
 }

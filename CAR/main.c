@@ -121,6 +121,10 @@ int main(){
     int end = 0;
     bool keyRelease = false;
 
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        printf("error initializing SDL: %s\n", SDL_GetError());
+    }
+
     while(1){
 
         // key = getch(); // Get keyboard input

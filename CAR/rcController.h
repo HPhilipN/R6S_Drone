@@ -10,7 +10,7 @@
 #include <string.h>
 #include <stdbool.h>
 
-void* pollController(void* arg);
+void* pollController(void*);
 void startController();
 void stopController();
 

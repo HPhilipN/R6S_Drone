@@ -1,3 +1,6 @@
+#ifndef CTRLGPIO_H
+#define CTRLGPIO_H
+
 //gpio sys directory
 #define pinPath "/sys/class/gpio"
 #define pinExport "/export"
@@ -54,3 +57,5 @@ int pwmDisable(int pwm_pin);
 //pwm controllor
 
 void pwmController(int pwm_val, unsigned int freq, unsigned int duty_cycle);
+
+#endif

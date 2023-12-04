@@ -1,3 +1,6 @@
+#ifndef MOTOR_H
+#define MOTOR_H
+
 #define GPIO7 "/sys/class/gpio/gpio7"
 #define GPIO8 "/sys/class/gpio/gpio8"
 #define GPIO9 "/sys/class/gpio/gpio9"
@@ -23,3 +26,5 @@ void driveForward();
 void driveReverse();
 
 void stop();
+
+#endif

@@ -5,6 +5,15 @@
 #include <unistd.h>
 #include <stdbool.h>
 
+#include <SDL2/SDL.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <time.h>
+#include <pthread.h>
+#include <string.h>
+#include <stdbool.h>
+
 // #include <conio.h>
 #include <curses.h>
 #include <ncurses.h>
@@ -114,44 +123,70 @@ int main(){
 
     while(1){
 
-        key = getch(); // Get keyboard input
-        if (key != ERR) {
-            // Key is pressed
-            handleKeyPress(key);
-        }else{
-            handleKeyRelease('w');
-            handleKeyRelease('s');
-            handleKeyRelease('a');
-            handleKeyRelease('d');
+        // key = getch(); // Get keyboard input
+        // if (key != ERR) {
+        //     // Key is pressed
+        //     handleKeyPress(key);
+        // }else{
+        //     handleKeyRelease('w');
+        //     handleKeyRelease('s');
+        //     handleKeyRelease('a');
+        //     handleKeyRelease('d');
+        // }
+
+        // // Perform actions based on key states
+        // if (pressed[0]) {
+        //     // Move drone forward
+        //     printw("FWD\n");
+        //     refresh();
+        //     driveForward();
+
+        // }
+
+        // if (pressed[1]) {
+        //     // Move drone left
+        //     printw("LEFT\n");
+        //     refresh();
+        //     motorLeftFWD();
+        // }
+
+        // if (pressed[2]) {
+        //     // Move drone backward
+        //     printw("RVRSE\n");
+        //     refresh();
+        //     driveReverse();
+        // }
+
+        // if (pressed[3]) {
+        //     // Move drone right
+        //     printw("Right\n");
+        //     refresh();
+        //     motorRightFWD();
+        // }
+
+        SDL_Event sdlEvent;
+
+        while(SDL_PollEvent(&sdlEvent)){
+            if(sdlEvent.type == SDL_QUIT){
+                // setStop(true);
+            }
         }
 
-        // Perform actions based on key states
-        if (pressed[0]) {
-            // Move drone forward
+        const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        if(keystates[SDL_SCANCODE_W]){
             printw("FWD\n");
-            refresh();
             driveForward();
-
         }
-
-        if (pressed[1]) {
-            // Move drone left
+        if(keystates[SDL_SCANCODE_A]){
             printw("LEFT\n");
-            refresh();
             motorLeftFWD();
         }
-
-        if (pressed[2]) {
-            // Move drone backward
+        if(keystates[SDL_SCANCODE_S]){
             printw("RVRSE\n");
-            refresh();
             driveReverse();
         }
-
-        if (pressed[3]) {
-            // Move drone right
+        if(keystates[SDL_SCANCODE_D]){
             printw("Right\n");
-            refresh();
             motorRightFWD();
         }
 
@@ -160,7 +195,7 @@ int main(){
         //usleep(10000); // Sleep for a short duration to control loop speed
     }
 
-    endwin(); // End ncurses
+    // endwin(); // End ncurses
     gpioUnExport(7);
     gpioUnExport(8);
     gpioUnExport(9);

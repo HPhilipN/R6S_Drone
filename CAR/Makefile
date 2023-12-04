@@ -6,7 +6,7 @@ all: main
 
 
 main: main.o ctrlgpio.o motor.o rcController.o
-	$(CC) $(CFLAGS) -o main main.o ctrlgpio.o motor.o rcController.o -lncurses
+	$(CC) $(CFLAGS) -o main main.o ctrlgpio.o motor.o rcController.o -lncurses -Iinclude -lpthread -Llib -lSDL2 -lSDL2main
 
 main.o: main.c
 	$(CC) $(CFLAGS) -c main.c

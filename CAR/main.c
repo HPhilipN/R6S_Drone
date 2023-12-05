@@ -92,11 +92,11 @@ int main(){
     
     bool postMotor = false;
 
-    initscr();  // Initialize ncurses
-    cbreak();   // Line buffering disabled
-    noecho();   // Don't display characters as they are typed
-    timeout(128); // blocking keyboard input
-    int key = 0;
+    // initscr();  // Initialize ncurses
+    // cbreak();   // Line buffering disabled
+    // noecho();   // Don't display characters as they are typed
+    // timeout(128); // blocking keyboard input
+    // int key = 0;
 
     //exports the pins /sys/class/gpio/
     gpioExport(7);
@@ -129,7 +129,8 @@ int main(){
                                        SDL_WINDOWPOS_CENTERED,
                                        1000, 1000, 0);
 
-    while(1){
+    int close = 0;
+    while(!close){
 
         // key = getch(); // Get keyboard input
         // if (key != ERR) {
@@ -177,6 +178,7 @@ int main(){
         while(SDL_PollEvent(&sdlEvent)){
             if(sdlEvent.type == SDL_QUIT){
                 // setStop(true);
+                close = 1;
             }
         }
 

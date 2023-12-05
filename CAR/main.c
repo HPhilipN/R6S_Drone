@@ -266,30 +266,30 @@ int main(){
         }
 
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
-    if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
-        if(keystates[SDL_SCANCODE_W]){
-            dest.y -= speed / 30;
-            printf("FWD\n");
-            driveForward();
+        if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
+            if(keystates[SDL_SCANCODE_W]){
+                dest.y -= speed / 30;
+                printf("FWD\n");
+                driveForward();
+            }
+            if(keystates[SDL_SCANCODE_A]){
+                dest.x -= speed / 30;
+                printf("LEFT\n");
+                motorLeftFWD();
+            }
+            if(keystates[SDL_SCANCODE_S]){
+                dest.y += speed / 30;
+                printf("RVRSE\n");
+                driveReverse();
+            }
+            if(keystates[SDL_SCANCODE_D]){
+                dest.x += speed / 30;
+                printf("Right\n");
+                motorRightFWD();
+            }
+        }else{
+            stop();
         }
-        if(keystates[SDL_SCANCODE_A]){
-            dest.x -= speed / 30;
-            printf("LEFT\n");
-            motorLeftFWD();
-        }
-        if(keystates[SDL_SCANCODE_S]){
-            dest.y += speed / 30;
-            printf("RVRSE\n");
-            driveReverse();
-        }
-        if(keystates[SDL_SCANCODE_D]){
-            dest.x += speed / 30;
-            printf("Right\n");
-            motorRightFWD();
-        }
-    }
-
-    stop();
 
         // if(!keystates[SDL_SCANCODE_W]){
         //     dest.y -= speed / 30;

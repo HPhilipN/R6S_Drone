@@ -6,91 +6,89 @@
 #include <stdbool.h>
 
 #include <SDL2/SDL.h>
-#include <stdlib.h>
-#include <stdbool.h>
-#include <stdio.h>
+#include <SDL2/SDL_image.h>
+#include <SDL2/SDL_timer.h>
+
 #include <time.h>
 #include <pthread.h>
-#include <string.h>
-#include <stdbool.h>
 
 // #include <conio.h>
-#include <curses.h>
-#include <ncurses.h>
+// #include <curses.h>
+// #include <ncurses.h>
 
 #include "motor.h"
 #include "ctrlgpio.h"
 #include "rcController.h"
 
-#define SIZE 4
-// pressed boolean array, 0123 -> wasd
-bool pressed[SIZE] = {0}; 
-bool motors = false;
+// #define SIZE 4
+// // pressed boolean array, 0123 -> wasd
+// bool pressed[SIZE] = {0}; 
+// bool motors = false;
 
-// Function to handle key presses
-void handleKeyPress(int key) {
-    switch (key) {
-        case 'w':
-            pressed[0] = true;
-            motors = true;
-            break;
-        case 'a':
-            pressed[1] = true;
-            motors = true;
-            break;
-        case 's':
-            pressed[2] = true;
-            motors = true;
-            break;
-        case 'd':
-            pressed[3] = true;
-            motors = true;
-            break;
-        default:
-            break;
-    }
-}
+// // Function to handle key presses
+// void handleKeyPress(int key) {
+//     switch (key) {
+//         case 'w':
+//             pressed[0] = true;
+//             motors = true;
+//             break;
+//         case 'a':
+//             pressed[1] = true;
+//             motors = true;
+//             break;
+//         case 's':
+//             pressed[2] = true;
+//             motors = true;
+//             break;
+//         case 'd':
+//             pressed[3] = true;
+//             motors = true;
+//             break;
+//         default:
+//             break;
+//     }
+// }
 
-// Function to handle key releases
-void handleKeyRelease(int key) {
+// // Function to handle key releases
+// void handleKeyRelease(int key) {
 
-    // if(motors){
-    //     stop();
-    //     motors = false;
-    //     printw("STOP\n");
-    // }
+//     // if(motors){
+//     //     stop();
+//     //     motors = false;
+//     //     printw("STOP\n");
+//     // }
 
-    switch (key) {
-        case 'w':
-            pressed[0] = false;
-            break;
-        case 'a':
-            pressed[1] = false;
-            break;
-        case 's':
-            pressed[2] = false;
-            break;
-        case 'd':
-            pressed[3] = false;
-            break;
-        default:
-            break;
-    }
+//     switch (key) {
+//         case 'w':
+//             pressed[0] = false;
+//             break;
+//         case 'a':
+//             pressed[1] = false;
+//             break;
+//         case 's':
+//             pressed[2] = false;
+//             break;
+//         case 'd':
+//             pressed[3] = false;
+//             break;
+//         default:
+//             break;
+//     }
 
-    if(!pressed[0] && !pressed[1] && !pressed[2] && !pressed[3] && motors){
-        stop();
-        motors = false;
-        printw("STOP\n");
-        refresh();
-    }
-}
+//     if(!pressed[0] && !pressed[1] && !pressed[2] && !pressed[3] && motors){
+//         stop();
+//         motors = false;
+//         printw("STOP\n");
+//         refresh();
+//     }
+// }
 
 // its not brokey we just tryna begin it
 // also go make the main file :grin: yess
 // wait i mean makefile ok
 int main(){
     
-    bool postMotor = false;
+    // bool postMotor = false;
 
     // initscr();  // Initialize ncurses
     // cbreak();   // Line buffering disabled
@@ -117,92 +115,218 @@ int main(){
     setDirection(10, dirOut);
 
     // user input to move both motors
-    char input;
-    int end = 0;
-    bool keyRelease = false;
+    // char input;
+    // int end = 0;
+    // bool keyRelease = false;
 
     // if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
     //     printf("error initializing SDL: %s\n", SDL_GetError());
     // }
-    SDL_Init(SDL_INIT_EVERYTHING);
-    SDL_Window* win = SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, SDL_WINDOW_SHOWN);
-    SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, 0);
+    // SDL_Init(SDL_INIT_EVERYTHING);
+    // SDL_Window* win = SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, SDL_WINDOW_SHOWN);
+    // SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, 0);
 
+    // int close = 0;
+    // while(!close){
+
+    //     // key = getch(); // Get keyboard input
+    //     // if (key != ERR) {
+    //     //     // Key is pressed
+    //     //     handleKeyPress(key);
+    //     // }else{
+    //     //     handleKeyRelease('w');
+    //     //     handleKeyRelease('s');
+    //     //     handleKeyRelease('a');
+    //     //     handleKeyRelease('d');
+    //     // }
+
+    //     // // Perform actions based on key states
+    //     // if (pressed[0]) {
+    //     //     // Move drone forward
+    //     //     printw("FWD\n");
+    //     //     refresh();
+    //     //     driveForward();
+
+    //     // }
+
+    //     // if (pressed[1]) {
+    //     //     // Move drone left
+    //     //     printw("LEFT\n");
+    //     //     refresh();
+    //     //     motorLeftFWD();
+    //     // }
+
+    //     // if (pressed[2]) {
+    //     //     // Move drone backward
+    //     //     printw("RVRSE\n");
+    //     //     refresh();
+    //     //     driveReverse();
+    //     // }
+
+    //     // if (pressed[3]) {
+    //     //     // Move drone right
+    //     //     printw("Right\n");
+    //     //     refresh();
+    //     //     motorRightFWD();
+    //     // }
+
+    //     SDL_Event sdlEvent;
+
+    //     while(SDL_PollEvent(&sdlEvent)){
+    //         if(sdlEvent.type == SDL_QUIT){
+    //             // setStop(true);
+    //             close = 1;
+    //         }
+    //     }
+
+    //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
+    //     if(keystates[SDL_SCANCODE_W]){
+    //         printf("FWD\n");
+    //         driveForward();
+    //     }
+    //     if(keystates[SDL_SCANCODE_A]){
+    //         printf("LEFT\n");
+    //         motorLeftFWD();
+    //     }
+    //     if(keystates[SDL_SCANCODE_S]){
+    //         printf("RVRSE\n");
+    //         driveReverse();
+    //     }
+    //     if(keystates[SDL_SCANCODE_D]){
+    //         printf("Right\n");
+    //         motorRightFWD();
+    //     }
+
+    //     // refresh(); // Refresh screen
+
+    //     //usleep(10000); // Sleep for a short duration to control loop speed
+    // }
+
+
+    // returns zero on success else non-zero
+    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+        printf("error initializing SDL: %s\n", SDL_GetError());
+    }
+    SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
+                                       SDL_WINDOWPOS_CENTERED,
+                                       SDL_WINDOWPOS_CENTERED,
+                                       1000, 1000, 0);
+ 
+    // triggers the program that controls
+    // your graphics hardware and sets flags
+    Uint32 render_flags = SDL_RENDERER_ACCELERATED;
+ 
+    // creates a renderer to render our images
+    SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
+ 
+    // creates a surface to load an image into the main memory
+    SDL_Surface* surface;
+ 
+    // please provide a path for your image
+    surface = IMG_Load("image.png");
+ 
+    // loads image to our graphics hardware memory.
+    SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surface);
+ 
+    // clears main-memory
+    SDL_FreeSurface(surface);
+ 
+    // let us control our image position
+    // so that we can move it with our keyboard.
+    SDL_Rect dest;
+ 
+    // connects our texture with dest to control position
+    SDL_QueryTexture(tex, NULL, NULL, &dest.w, &dest.h);
+ 
+    // adjust height and width of our image box.
+    dest.w /= 6;
+    dest.h /= 6;
+ 
+    // sets initial x-position of object
+    dest.x = (1000 - dest.w) / 2;
+ 
+    // sets initial y-position of object
+    dest.y = (1000 - dest.h) / 2;
+ 
+    // controls animation loop
     int close = 0;
-    while(!close){
-
-        // key = getch(); // Get keyboard input
-        // if (key != ERR) {
-        //     // Key is pressed
-        //     handleKeyPress(key);
-        // }else{
-        //     handleKeyRelease('w');
-        //     handleKeyRelease('s');
-        //     handleKeyRelease('a');
-        //     handleKeyRelease('d');
-        // }
-
-        // // Perform actions based on key states
-        // if (pressed[0]) {
-        //     // Move drone forward
-        //     printw("FWD\n");
-        //     refresh();
-        //     driveForward();
-
-        // }
-
-        // if (pressed[1]) {
-        //     // Move drone left
-        //     printw("LEFT\n");
-        //     refresh();
-        //     motorLeftFWD();
-        // }
-
-        // if (pressed[2]) {
-        //     // Move drone backward
-        //     printw("RVRSE\n");
-        //     refresh();
-        //     driveReverse();
-        // }
-
-        // if (pressed[3]) {
-        //     // Move drone right
-        //     printw("Right\n");
-        //     refresh();
-        //     motorRightFWD();
-        // }
-
-        SDL_Event sdlEvent;
-
-        while(SDL_PollEvent(&sdlEvent)){
-            if(sdlEvent.type == SDL_QUIT){
-                // setStop(true);
+ 
+    // speed of box
+    int speed = 300;
+ 
+    // animation loop
+    while (!close) {
+        SDL_Event event;
+ 
+        // Events management
+        while(SDL_PollEvent(&event)){
+            if(event.type == SDL_QUIT){
                 close = 1;
             }
         }
 
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
         if(keystates[SDL_SCANCODE_W]){
+            dest.y -= speed / 30;
             printf("FWD\n");
             driveForward();
         }
         if(keystates[SDL_SCANCODE_A]){
+            dest.x -= speed / 30;
             printf("LEFT\n");
             motorLeftFWD();
         }
         if(keystates[SDL_SCANCODE_S]){
+            dest.y += speed / 30;
             printf("RVRSE\n");
             driveReverse();
         }
         if(keystates[SDL_SCANCODE_D]){
+            dest.x += speed / 30;
             printf("Right\n");
             motorRightFWD();
         }
-
-        // refresh(); // Refresh screen
-
-        //usleep(10000); // Sleep for a short duration to control loop speed
+ 
+        // right boundary
+        if (dest.x + dest.w > 1000)
+            dest.x = 1000 - dest.w;
+ 
+        // left boundary
+        if (dest.x < 0)
+            dest.x = 0;
+ 
+        // bottom boundary
+        if (dest.y + dest.h > 1000)
+            dest.y = 1000 - dest.h;
+ 
+        // upper boundary
+        if (dest.y < 0)
+            dest.y = 0;
+ 
+        // clears the screen
+        SDL_RenderClear(rend);
+        SDL_RenderCopy(rend, tex, NULL, &dest);
+ 
+        // triggers the double buffers
+        // for multiple rendering
+        SDL_RenderPresent(rend);
+ 
+        // calculates to 60 fps
+        SDL_Delay(1000 / 60);
     }
+ 
+    // destroy texture
+    SDL_DestroyTexture(tex);
+ 
+    // destroy renderer
+    SDL_DestroyRenderer(rend);
+ 
+    // destroy window
+    SDL_DestroyWindow(win);
+     
+    // close SDL
+    SDL_Quit();
+
 
     // endwin(); // End ncurses
     gpioUnExport(7);

@@ -121,9 +121,10 @@ int main(){
     int end = 0;
     bool keyRelease = false;
 
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        printf("error initializing SDL: %s\n", SDL_GetError());
-    }
+    // if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    //     printf("error initializing SDL: %s\n", SDL_GetError());
+    // }
+    SDL_Init(SDL_INIT_EVERYTHING);
     SDL_Window* win = SDL_CreateWindow("GAME", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 1000, SDL_WINDOW_SHOWN);
     SDL_Renderer* renderer = SDL_CreateRenderer(win, -1, 0);
 

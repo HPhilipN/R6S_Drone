@@ -184,19 +184,19 @@ int main(){
 
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
         if(keystates[SDL_SCANCODE_W]){
-            printw("FWD\n");
+            printf("FWD\n");
             driveForward();
         }
         if(keystates[SDL_SCANCODE_A]){
-            printw("LEFT\n");
+            printf("LEFT\n");
             motorLeftFWD();
         }
         if(keystates[SDL_SCANCODE_S]){
-            printw("RVRSE\n");
+            printf("RVRSE\n");
             driveReverse();
         }
         if(keystates[SDL_SCANCODE_D]){
-            printw("Right\n");
+            printf("Right\n");
             motorRightFWD();
         }
 

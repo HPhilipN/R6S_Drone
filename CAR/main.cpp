@@ -19,9 +19,17 @@
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
 
-// its not brokey we just tryna begin it
-// also go make the main file :grin: yess
-// wait i mean makefile ok
+static void sleepForMs(long long delayInMs)
+{
+    const long long NS_PER_MS = 1000 * 1000;
+    const long long NS_PER_SECOND = 1000000000;
+    long long delayNs = delayInMs * NS_PER_MS;
+    int seconds = delayNs / NS_PER_SECOND;
+    int nanoseconds = delayNs % NS_PER_SECOND;
+    struct timespec reqDelay = {seconds, nanoseconds};
+    nanosleep(&reqDelay, (struct timespec *) NULL);
+}
+
 int main(){
     
     // printf("1");
@@ -30,6 +38,8 @@ int main(){
     gpioExport(8);
     gpioExport(9);
     gpioExport(10);
+
+    sleepForMs(100);
 
     for(int i = 7; i < 11; i++){
         if (gpioExport(i) == -1) {
@@ -65,55 +75,69 @@ int main(){
  
 // camera code begin
 
-    // // Set up SDL texture to hold the camera stream
-    // SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
+    // Set up SDL texture to hold the camera stream
+    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
-    // // Command to capture camera data
-    // char command[100];
-    // snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
+    // Command to capture camera data
+    char command[100];
+    snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
 
-    // // Create a pipe to capture camera data
-    // FILE *pipe = popen(command, "r");
-    // if (!pipe) {
-    //     perror("Error opening pipe");
-    //     SDL_DestroyTexture(cameraTexture);
-    //     SDL_DestroyRenderer(rend);
-    //     SDL_DestroyWindow(win);
-    //     SDL_Quit();
-    //     return -1;
-    // }
+    // Create a pipe to capture camera data
+    FILE *pipe = popen(command, "r");
+    if (!pipe) {
+        perror("Error opening pipe");
+        SDL_DestroyTexture(cameraTexture);
+        SDL_DestroyRenderer(rend);
+        SDL_DestroyWindow(win);
+        SDL_Quit();
+        return -1;
+    }
 
-    // // Main loop
-    // SDL_Event event;
-    // while (1) {
-    //     // Read camera data from the pipe
-    //     char buffer[WIDTH * HEIGHT * 3];
-    //     size_t bytesRead = fread(buffer, 1, sizeof(buffer), pipe);
+    // Main loop
+    SDL_Event event;
+    while (1) {
+        // Read camera data from the pipe
+        char buffer[WIDTH * HEIGHT * 3];
+        size_t bytesRead = fread(buffer, sizeof(buffer), 1, pipe); // swapped sizeof(buffer) and 1
 
-    //     // Update the texture with the new camera data
-    //     SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
+        // variables probably do nothing, used for lock
+        void* pixels;
+        int pitch;
 
-    //     // Clear the renderer
-    //     SDL_RenderClear(rend);
+        // Lock
+        SDL_LockTexture(cameraTexture, NULL, &pixels, &pitch);
 
-    //     // Copy the texture to the renderer
-    //     SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+        // New update
+        memcpy(pixels, buffer, bytesRead);
 
-    //     // Present the renderer
-    //     SDL_RenderPresent(rend);
+        // // Update the texture with the new camera data
+        // SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
 
-    //     // Check for events (e.g., window close)
-    //     while (SDL_PollEvent(&event)) {
-    //         if (event.type == SDL_QUIT) {
-    //             SDL_DestroyTexture(cameraTexture);
-    //             SDL_DestroyRenderer(rend);
-    //             SDL_DestroyWindow(win);
-    //             SDL_Quit();
-    //             pclose(pipe);
-    //             return 0;
-    //         }
-    //     }
-    // }
+        // Unlock
+        SDL_UnlockTexture(cameraTexture);
+
+
+        // Clear the renderer
+        SDL_RenderClear(rend);
+
+        // Copy the texture to the renderer
+        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+
+        // Present the renderer
+        SDL_RenderPresent(rend);
+
+        // Check for events (e.g., window close)
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                SDL_DestroyTexture(cameraTexture);
+                SDL_DestroyRenderer(rend);
+                SDL_DestroyWindow(win);
+                SDL_Quit();
+                pclose(pipe);
+                return 0;
+            }
+        }
+    }
 
 // camera code end
 

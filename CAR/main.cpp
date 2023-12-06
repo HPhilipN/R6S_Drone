@@ -100,21 +100,21 @@ int main(){
         char buffer[WIDTH * HEIGHT * 3];
         size_t bytesRead = fread(buffer, sizeof(buffer), 1, pipe); // swapped sizeof(buffer) and 1
 
-        // variables probably do nothing, used for lock
-        void* pixels;
-        int pitch;
+        // // variables probably do nothing, used for lock
+        // void* pixels;
+        // int pitch;
 
-        // Lock
-        SDL_LockTexture(cameraTexture, NULL, &pixels, &pitch);
+        // // Lock
+        // SDL_LockTexture(cameraTexture, NULL, &pixels, &pitch);
 
-        // New update
-        memcpy(pixels, buffer, bytesRead);
+        // // New update
+        // memcpy(pixels, buffer, bytesRead);
 
-        // // Update the texture with the new camera data
-        // SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
+        // Update the texture with the new camera data
+        SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
 
-        // Unlock
-        SDL_UnlockTexture(cameraTexture);
+        // // Unlock
+        // SDL_UnlockTexture(cameraTexture);
 
 
         // Clear the renderer

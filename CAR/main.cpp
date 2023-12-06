@@ -38,7 +38,7 @@ int main(){
         }
     }
     // printf("2");
-    sets the pin as either in || out 
+    // sets the pin as either in || out 
     setDirection(7, dirOut);
     setDirection(8, dirOut);
     setDirection(9, dirOut);

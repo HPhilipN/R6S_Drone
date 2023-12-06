@@ -1,18 +1,18 @@
 # A simple Makefile for compiling small SDL projects
 
 # set the compiler
-CC := clang
+CXX := g++
 
 # set the compiler flags
-CFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 --std=c99 -Wall -lSDL2_image -lm
+CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image -lm
 # add header files here
 HDRS :=
 
 # add source files here
-SRCS := main.c ctrlgpio.c motor.c
+SRCS := main.cpp ctrlgpio.cpp motor.cpp 
 
 # generate names of object files
-OBJS := $(SRCS:.c=.o)
+OBJS := $(SRCS:.cpp=.o)
 
 # name of executable
 EXEC := main
@@ -28,11 +28,11 @@ glfont: glfont.c Makefile
 
 # recipe for building the final executable
 $(EXEC): $(OBJS) $(HDRS) Makefile
-	$(CC) -o $@ $(OBJS) $(CFLAGS)
+	$(CXX) -o $@ $(OBJS) $(CXXFLAGS)
 
 # recipe for building object files
-#$(OBJS): $(@:.o=.c) $(HDRS) Makefile
-#    $(CC) -o $@ $(@:.o=.c) -c $(CFLAGS)
+#$(OBJS): $(@:.o=.cpp) $(HDRS) Makefile
+#    $(CXX) -o $@ $(@:.o=.cpp) -c $(CXXFLAGS)
 
 # recipe to clean the workspace
 clean:

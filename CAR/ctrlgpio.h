@@ -26,7 +26,7 @@
 
 //gpio pin helper functions
 
-static int readNwriteFile(const char *fname, const char *wdata);
+// static int readNwriteFile(const char *fname, const char *wdata);
 
 int gpioExport(int gpio_pin);
 

@@ -64,55 +64,55 @@ int main(){
  
 // camera code begin
 
-    // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
+    // // Set up SDL texture to hold the camera stream
+    // SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
-    // Command to capture camera data
-    char command[100];
-    snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
+    // // Command to capture camera data
+    // char command[100];
+    // snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
 
-    // Create a pipe to capture camera data
-    FILE *pipe = popen(command, "r");
-    if (!pipe) {
-        perror("Error opening pipe");
-        SDL_DestroyTexture(cameraTexture);
-        SDL_DestroyRenderer(rend);
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        return -1;
-    }
+    // // Create a pipe to capture camera data
+    // FILE *pipe = popen(command, "r");
+    // if (!pipe) {
+    //     perror("Error opening pipe");
+    //     SDL_DestroyTexture(cameraTexture);
+    //     SDL_DestroyRenderer(rend);
+    //     SDL_DestroyWindow(win);
+    //     SDL_Quit();
+    //     return -1;
+    // }
 
-    // Main loop
-    SDL_Event event;
-    while (1) {
-        // Read camera data from the pipe
-        char buffer[WIDTH * HEIGHT * 3];
-        size_t bytesRead = fread(buffer, 1, sizeof(buffer), pipe);
+    // // Main loop
+    // SDL_Event event;
+    // while (1) {
+    //     // Read camera data from the pipe
+    //     char buffer[WIDTH * HEIGHT * 3];
+    //     size_t bytesRead = fread(buffer, 1, sizeof(buffer), pipe);
 
-        // Update the texture with the new camera data
-        SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
+    //     // Update the texture with the new camera data
+    //     SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
 
-        // Clear the renderer
-        SDL_RenderClear(rend);
+    //     // Clear the renderer
+    //     SDL_RenderClear(rend);
 
-        // Copy the texture to the renderer
-        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+    //     // Copy the texture to the renderer
+    //     SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
 
-        // Present the renderer
-        SDL_RenderPresent(rend);
+    //     // Present the renderer
+    //     SDL_RenderPresent(rend);
 
-        // Check for events (e.g., window close)
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                SDL_DestroyTexture(cameraTexture);
-                SDL_DestroyRenderer(rend);
-                SDL_DestroyWindow(win);
-                SDL_Quit();
-                pclose(pipe);
-                return 0;
-            }
-        }
-    }
+    //     // Check for events (e.g., window close)
+    //     while (SDL_PollEvent(&event)) {
+    //         if (event.type == SDL_QUIT) {
+    //             SDL_DestroyTexture(cameraTexture);
+    //             SDL_DestroyRenderer(rend);
+    //             SDL_DestroyWindow(win);
+    //             SDL_Quit();
+    //             pclose(pipe);
+    //             return 0;
+    //         }
+    //     }
+    // }
 
 // camera code end
 
@@ -146,90 +146,90 @@ int main(){
     // sets initial y-position of object
     // dest.y = (1000 - dest.h) / 2;
  
-    // // controls animation loop
-    // int close = 0;
+    // controls animation loop
+    int close = 0;
  
     // speed of box
     // int speed = 300;
  
-    // // animation loop
-    // while (!close) {
-    //     printf("here\n");
-    //     SDL_Event event;
+    // animation loop
+    while (!close) {
+        printf("here\n");
+        SDL_Event event;
  
-    //     // Events management
-    //     while(SDL_PollEvent(&event)){
-    //         if(event.type == SDL_QUIT){
-    //             close = 1;
-    //         }
-    //     }
+        // Events management
+        while(SDL_PollEvent(&event)){
+            if(event.type == SDL_QUIT){
+                close = 1;
+            }
+        }
 
-    //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
-    //     if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
-    //         if(keystates[SDL_SCANCODE_W]){
-    //             // dest.y -= speed / 30;
-    //             printf("FWD\n");
-    //             driveForward();
-    //         }
-    //         if(keystates[SDL_SCANCODE_A]){
-    //             // dest.x -= speed / 30;
-    //             printf("LEFT\n");
-    //             motorLeftFWD();
-    //         }
-    //         if(keystates[SDL_SCANCODE_S]){
-    //             // dest.y += speed / 30;
-    //             printf("RVRSE\n");
-    //             driveReverse();
-    //         }
-    //         if(keystates[SDL_SCANCODE_D]){
-    //             // dest.x += speed / 30;
-    //             printf("Right\n");
-    //             motorRightFWD();
-    //         }
-    //     }else{
-    //         stop();
-    //     }
+        const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
+            if(keystates[SDL_SCANCODE_W]){
+                // dest.y -= speed / 30;
+                printf("FWD\n");
+                driveForward();
+            }
+            if(keystates[SDL_SCANCODE_A]){
+                // dest.x -= speed / 30;
+                printf("LEFT\n");
+                motorLeftFWD();
+            }
+            if(keystates[SDL_SCANCODE_S]){
+                // dest.y += speed / 30;
+                printf("RVRSE\n");
+                driveReverse();
+            }
+            if(keystates[SDL_SCANCODE_D]){
+                // dest.x += speed / 30;
+                printf("Right\n");
+                motorRightFWD();
+            }
+        }else{
+            stop();
+        }
  
-    //     // right boundary
-    //     // if (dest.x + dest.w > 1000)
-    //         // dest.x = 1000 - dest.w;
+        // right boundary
+        // if (dest.x + dest.w > 1000)
+            // dest.x = 1000 - dest.w;
  
-    //     // left boundary
-    //     // if (dest.x < 0)
-    //         // dest.x = 0;
+        // left boundary
+        // if (dest.x < 0)
+            // dest.x = 0;
  
-    //     // bottom boundary
-    //     // if (dest.y + dest.h > 1000)
-    //         // dest.y = 1000 - dest.h;
+        // bottom boundary
+        // if (dest.y + dest.h > 1000)
+            // dest.y = 1000 - dest.h;
  
-    //     // upper boundary
-    //     // if (dest.y < 0)
-    //         // dest.y = 0;
+        // upper boundary
+        // if (dest.y < 0)
+            // dest.y = 0;
  
-    //     // clears the screen
-    //     SDL_RenderClear(rend);
-    //     // SDL_RenderCopy(rend, tex, NULL, &dest);
+        // clears the screen
+        SDL_RenderClear(rend);
+        // SDL_RenderCopy(rend, tex, NULL, &dest);
  
-    //     // triggers the double buffers
-    //     // for multiple rendering
-    //     SDL_RenderPresent(rend);
+        // triggers the double buffers
+        // for multiple rendering
+        SDL_RenderPresent(rend);
  
-    //     // calculates to 60 fps
-    //     SDL_Delay(1000 / 60);
-    // }
+        // calculates to 60 fps
+        SDL_Delay(1000 / 60);
+    }
  
     // destroy texture
     // SDL_DestroyTexture(tex);
     // SDL_DestroyTexture(cameraTexture);
  
     // // destroy renderer
-    // SDL_DestroyRenderer(rend);
+    SDL_DestroyRenderer(rend);
  
     // // destroy window
-    // SDL_DestroyWindow(win);
+    SDL_DestroyWindow(win);
      
     // // close SDL
-    // SDL_Quit();
+    SDL_Quit();
 
 
     gpioUnExport(7);

@@ -76,7 +76,7 @@ int main(){
 // camera code begin
 
     // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT); 
+    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
     // Command to capture camera data
     char command[100];

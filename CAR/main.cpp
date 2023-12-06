@@ -154,7 +154,7 @@ int main(){
  
     // animation loop
     while (!close) {
-        printf("here\n");
+        // printf("here\n");
         SDL_Event event;
  
         // Events management

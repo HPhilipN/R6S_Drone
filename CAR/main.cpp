@@ -233,10 +233,10 @@ int main(){
     SDL_Quit();
 
 
-    gpioUnExport(7);
-    gpioUnExport(8);
-    gpioUnExport(9);
-    gpioUnExport(10);
+    // gpioUnExport(7);
+    // gpioUnExport(8);
+    // gpioUnExport(9);
+    // gpioUnExport(10);
     
 // initialize_camera();
 // capture_image();

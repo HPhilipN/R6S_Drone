@@ -16,6 +16,9 @@
 #include "ctrlgpio.h"
 #include "rcController.h"
 
+static const int WIDTH = 640;
+static const int HEIGHT = 480;
+
 // its not brokey we just tryna begin it
 // also go make the main file :grin: yess
 // wait i mean makefile ok
@@ -49,7 +52,7 @@ int main(){
     SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
                                        SDL_WINDOWPOS_CENTERED,
                                        SDL_WINDOWPOS_CENTERED,
-                                       1000, 1000, 0);
+                                       WIDTH, HEIGHT, 0);
  
     
     // triggers the program that controls
@@ -60,15 +63,13 @@ int main(){
     SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
  
 // camera code begin
-    int WIDTH = 640;
-    int HEIGHT = 480;
 
     // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, 1000, 1000);
+    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
 
     // Command to capture camera data
     char command[100];
-    snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", 1000, 1000);
+    snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
 
     // Create a pipe to capture camera data
     FILE *pipe = popen(command, "r");
@@ -81,7 +82,7 @@ int main(){
         return -1;
     }
 
-// Main loop
+    // Main loop
     SDL_Event event;
     while (1) {
         // Read camera data from the pipe
@@ -145,8 +146,8 @@ int main(){
     // sets initial y-position of object
     // dest.y = (1000 - dest.h) / 2;
  
-    // controls animation loop
-    int close = 0;
+    // // controls animation loop
+    // int close = 0;
  
     // speed of box
     // int speed = 300;
@@ -188,27 +189,6 @@ int main(){
     //     }else{
     //         stop();
     //     }
-
-    //     // if(!keystates[SDL_SCANCODE_W]){
-    //     //     dest.y -= speed / 30;
-    //     //     printf("FWD\n");
-    //     //     driveForward();
-    //     // }
-    //     // if(!keystates[SDL_SCANCODE_A]){
-    //     //     dest.x -= speed / 30;
-    //     //     printf("LEFT\n");
-    //     //     motorLeftFWD();
-    //     // }
-    //     // if(!keystates[SDL_SCANCODE_S]){
-    //     //     dest.y += speed / 30;
-    //     //     printf("RVRSE\n");
-    //     //     driveReverse();
-    //     // }
-    //     // if(!keystates[SDL_SCANCODE_D]){
-    //     //     dest.x += speed / 30;
-    //     //     printf("Right\n");
-    //     //     motorRightFWD();
-    //     // }
  
     //     // right boundary
     //     // if (dest.x + dest.w > 1000)
@@ -242,14 +222,14 @@ int main(){
     // SDL_DestroyTexture(tex);
     // SDL_DestroyTexture(cameraTexture);
  
-    // destroy renderer
-    SDL_DestroyRenderer(rend);
+    // // destroy renderer
+    // SDL_DestroyRenderer(rend);
  
-    // destroy window
-    SDL_DestroyWindow(win);
+    // // destroy window
+    // SDL_DestroyWindow(win);
      
-    // close SDL
-    SDL_Quit();
+    // // close SDL
+    // SDL_Quit();
 
 
     gpioUnExport(7);

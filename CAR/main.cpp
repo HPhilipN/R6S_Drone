@@ -24,7 +24,7 @@ static const int HEIGHT = 480;
 // wait i mean makefile ok
 int main(){
     
-
+    // printf("1");
     //exports the pins /sys/class/gpio/
     gpioExport(7);
     gpioExport(8);
@@ -37,12 +37,13 @@ int main(){
         exit(EXIT_FAILURE);
         }
     }
+    // printf("2");
     //sets the pin as either in || out 
-    setDirection(7, dirOut);
-    setDirection(8, dirOut);
-    setDirection(9, dirOut);
-    setDirection(10, dirOut);
-
+    // setDirection(7, dirOut);
+    // setDirection(8, dirOut);
+    // setDirection(9, dirOut);
+    // setDirection(10, dirOut);
+    // printf("3");
     
 
     // returns zero on success else non-zero

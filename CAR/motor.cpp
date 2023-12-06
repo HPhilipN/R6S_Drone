@@ -53,8 +53,8 @@ void driveForward()
     setValue(10, hi);
     setValue(9, lo);
     //pwm(motor speed)
-    //pwmController();
-    //pwmController();
+    pwmController(0, 1000, 500);
+    pwmController(0, 1000, 500);
 }
 
 void driveReverse()

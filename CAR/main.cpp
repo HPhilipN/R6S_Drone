@@ -76,11 +76,11 @@ int main(){
 // camera code begin
 
     // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB24, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT);
+    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STREAMING, WIDTH, HEIGHT); 
 
     // Command to capture camera data
     char command[100];
-    snprintf(command, sizeof(command), "rpicam-vid -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
+    snprintf(command, sizeof(command), "rpicam-vid -codec yuv420 -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
 
     // Create a pipe to capture camera data
     FILE *pipe = popen(command, "r");

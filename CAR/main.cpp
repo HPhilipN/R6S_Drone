@@ -34,13 +34,13 @@ static void sleepForMs(long long delayInMs)
 
 int main(){
     
-    // printf("1");
     //exports the pins /sys/class/gpio/
     gpioExport(7);
     gpioExport(8);
     gpioExport(9);
     gpioExport(10);
 
+    // wait for udev
     sleepForMs(100);
 
     for(int i = 7; i < 11; i++){
@@ -49,14 +49,11 @@ int main(){
         exit(EXIT_FAILURE);
         }
     }
-    // printf("2");
     // sets the pin as either in || out 
     setDirection(7, dirOut);
     setDirection(8, dirOut);
     setDirection(9, dirOut);
-    setDirection(10, dirOut);
-    // printf("3");
-    
+    setDirection(10, dirOut);    
 
     // returns zero on success else non-zero
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -75,8 +72,6 @@ int main(){
     // creates a renderer to render our images
     SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
  
-// camera code begin
-
     // Set up SDL texture to hold the camera stream
     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
@@ -121,7 +116,6 @@ int main(){
         fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
-        // yuv420
         /* Fallback works
             Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
             Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
@@ -133,26 +127,6 @@ int main(){
 
             SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
         */
-
-        // yuv420 end
-
-        // // variables probably do nothing, used for lock
-        // void* pixels;
-        // int pitch;
-
-        // // Lock
-        // SDL_LockTexture(cameraTexture, NULL, &pixels, &pitch);
-
-        // // New update
-        // memcpy(pixels, buffer, bytesRead);
-
-        // Update the texture with the new camera data
-        
-        
-
-        // // Unlock
-        // SDL_UnlockTexture(cameraTexture);
-
 
         // Clear the renderer
         SDL_RenderClear(rend);
@@ -166,22 +140,18 @@ int main(){
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
         if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
             if(keystates[SDL_SCANCODE_W]){
-                // dest.y -= speed / 30;
                 printf("FWD\n");
                 driveForward();
             }
             if(keystates[SDL_SCANCODE_A]){
-                // dest.x -= speed / 30;
                 printf("LEFT\n");
                 motorLeftFWD();
             }
             if(keystates[SDL_SCANCODE_S]){
-                // dest.y += speed / 30;
                 printf("RVRSE\n");
                 driveReverse();
             }
             if(keystates[SDL_SCANCODE_D]){
-                // dest.x += speed / 30;
                 printf("Right\n");
                 motorRightFWD();
             }
@@ -189,137 +159,10 @@ int main(){
             stop();
         }
 
-        SDL_Delay(30);
+        SDL_Delay(33);
 
         
     }
-
-// camera code end
-
-
-    // creates a surface to load an image into the main memory
-    // SDL_Surface* surface;
- 
-    // please provide a path for your image
-    // surface = IMG_Load("image.png");
- 
-    // loads image to our graphics hardware memory.
-    // SDL_Texture* tex = SDL_CreateTextureFromSurface(rend, surface);
- 
-    // clears main-memory
-    // SDL_FreeSurface(surface);
- 
-    // let us control our image position
-    // so that we can move it with our keyboard.
-    // SDL_Rect dest;
- 
-    // connects our texture with dest to control position
-    // SDL_QueryTexture(tex, NULL, NULL, &dest.w, &dest.h);
- 
-    // adjust height and width of our image box.
-    // dest.w /= 6;
-    // dest.h /= 6;
- 
-    // sets initial x-position of object
-    // dest.x = (1000 - dest.w) / 2;
- 
-    // sets initial y-position of object
-    // dest.y = (1000 - dest.h) / 2;
- 
-    // controls animation loop
-    // int close = 0;
- 
-    // // speed of box
-    // // int speed = 300;
- 
-    // // animation loop
-    // while (!close) {
-    //     // printf("here\n");
-    //     SDL_Event event;
- 
-    //     // Events management
-    //     while(SDL_PollEvent(&event)){
-    //         if(event.type == SDL_QUIT){
-    //             close = 1;
-    //         }
-    //     }
-
-    //     const Uint8* keystates = SDL_GetKeyboardState(NULL);
-    //     if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
-    //         if(keystates[SDL_SCANCODE_W]){
-    //             // dest.y -= speed / 30;
-    //             printf("FWD\n");
-    //             driveForward();
-    //         }
-    //         if(keystates[SDL_SCANCODE_A]){
-    //             // dest.x -= speed / 30;
-    //             printf("LEFT\n");
-    //             motorLeftFWD();
-    //         }
-    //         if(keystates[SDL_SCANCODE_S]){
-    //             // dest.y += speed / 30;
-    //             printf("RVRSE\n");
-    //             driveReverse();
-    //         }
-    //         if(keystates[SDL_SCANCODE_D]){
-    //             // dest.x += speed / 30;
-    //             printf("Right\n");
-    //             motorRightFWD();
-    //         }
-    //     }else{
-    //         stop();
-    //     }
- 
-    //     // right boundary
-    //     // if (dest.x + dest.w > 1000)
-    //         // dest.x = 1000 - dest.w;
- 
-    //     // left boundary
-    //     // if (dest.x < 0)
-    //         // dest.x = 0;
- 
-    //     // bottom boundary
-    //     // if (dest.y + dest.h > 1000)
-    //         // dest.y = 1000 - dest.h;
- 
-    //     // upper boundary
-    //     // if (dest.y < 0)
-    //         // dest.y = 0;
- 
-    //     // clears the screen
-    //     SDL_RenderClear(rend);
-    //     // SDL_RenderCopy(rend, tex, NULL, &dest);
- 
-    //     // triggers the double buffers
-    //     // for multiple rendering
-    //     SDL_RenderPresent(rend);
- 
-    //     // calculates to 60 fps
-    //     SDL_Delay(1000 / 60);
-    // }
- 
-    // // destroy texture
-    // // SDL_DestroyTexture(tex);
-    // // SDL_DestroyTexture(cameraTexture);
- 
-    // // // destroy renderer
-    // // SDL_DestroyRenderer(rend);
- 
-    // // // destroy window
-    // SDL_DestroyWindow(win);
-     
-    // // // close SDL
-    // SDL_Quit();
-
-
-    // gpioUnExport(7);
-    // gpioUnExport(8);
-    // gpioUnExport(9);
-    // gpioUnExport(10);
-    
-// initialize_camera();
-// capture_image();
-// release_camera();
 
     return 0;
 }

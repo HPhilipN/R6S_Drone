@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sys/socket.h>
-#include <netinet/in.h>
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <string.h>
@@ -8,25 +7,24 @@
 int main() {
     int sock = 0;
     struct sockaddr_in serv_addr;
-    char data_to_send[1024] = "Hello from client";
+    int buffer[1024] = {123}; // Example data to send
 
-    // Creating socket
+    // Creating the socket
     sock = socket(AF_INET, SOCK_STREAM, 0);
 
-    // Server address
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(8080);
 
-    // Convert IPv4 addresses from text to binary
-    inet_pton(AF_INET, "127.0.0.1", &serv_addr.sin_addr);
+    // Convert IPv4 addresses from text to binary form
+    inet_pton(AF_INET, "172.28.231.23", &serv_addr.sin_addr);
 
-    // Connecting to server
+    // Connect to the server
     connect(sock, (struct sockaddr *)&serv_addr, sizeof(serv_addr));
 
-    // Sending data
-    send(sock, data_to_send, strlen(data_to_send), 0);
+    // Send data
+    send(sock, buffer, sizeof(buffer), 0);
 
-    // Closing socket
+    // Close the socket
     close(sock);
 
     return 0;

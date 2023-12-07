@@ -76,11 +76,13 @@ int main(){
 // camera code begin
 
     // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGB444, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
     // Command to capture camera data
     char command[256];
-    snprintf(command, sizeof(command), "rpicam-raw -t 0 --width %d --height %d -o - -n --framerate 2", WIDTH, HEIGHT);
+    // snprintf(command, sizeof(command), "rpicam-raw --segment 0 -t 0 --width %d --height %d -o - -n --framerate 2", WIDTH, HEIGHT);
+    snprintf(command, sizeof(command), "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
+
 
     // Create a pipe to capture camera data
     FILE *pipe = popen(command, "r");
@@ -98,8 +100,21 @@ int main(){
     while (1) {
         // Read camera data from the pipe
         
-        char buffer[WIDTH * HEIGHT * 3];
-        size_t bytesRead = fread(buffer, sizeof(buffer), 1, pipe); // swapped sizeof(buffer) and 1
+        // char buffer[(int)(WIDTH * HEIGHT * 1.5)];
+        // size_t bytesRead = fread(buffer, sizeof(buffer), 1, pipe); // swapped sizeof(buffer) and 1
+
+        // yuv420
+            Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
+            Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
+            Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
+
+            fread(yBuffer, 1, WIDTH * HEIGHT, pipe);
+            fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, pipe);
+            fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, pipe);
+
+            SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
+
+        // yuv420 end
 
         // // variables probably do nothing, used for lock
         // void* pixels;
@@ -113,7 +128,7 @@ int main(){
 
         // Update the texture with the new camera data
         
-        SDL_UpdateTexture(cameraTexture, NULL, buffer, WIDTH * 3);
+        // SDL_UpdateTexture(cameraTexture, NULL, buffer, (int)(WIDTH * 1.5));
 
         // // Unlock
         // SDL_UnlockTexture(cameraTexture);
@@ -127,6 +142,8 @@ int main(){
 
         // Present the renderer
         SDL_RenderPresent(rend);
+
+        SDL_Delay(30);
 
         // Check for events (e.g., window close)
         while (SDL_PollEvent(&event)) {

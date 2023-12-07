@@ -14,7 +14,6 @@
 
 #include "motor.h"
 #include "ctrlgpio.h"
-#include "rcController.h"
 
 static const int WIDTH = 640;
 static const int HEIGHT = 480;

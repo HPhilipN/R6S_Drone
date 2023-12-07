@@ -1,10 +1,14 @@
 # A simple Makefile for compiling small SDL projects
 
 # set the compiler
-CXX := g++
+CXX := clang
+
+# architecture
+ARC := -arch arm64
 
 # set the compiler flags
-CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image -lm
+CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image
+# -lSDL2 -lSDL2_image -lSDL2_net -lm
 # add header files here
 HDRS :=
 
@@ -28,7 +32,7 @@ glfont: glfont.c Makefile
 
 # recipe for building the final executable
 $(EXEC): $(OBJS) $(HDRS) Makefile
-	$(CXX) -o $@ $(OBJS) $(CXXFLAGS)
+	$(CXX) $(ARC) -o $@ $(OBJS) $(CXXFLAGS)
 
 # recipe for building object files
 #$(OBJS): $(@:.o=.cpp) $(HDRS) Makefile

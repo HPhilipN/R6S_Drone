@@ -18,6 +18,8 @@
 
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
+static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
+static const int FRAMERATE = 30;
 
 static void sleepForMs(long long delayInMs)
 {
@@ -79,15 +81,16 @@ int main(){
     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
     // Command to capture camera data
-    char command[256];
-    // snprintf(command, sizeof(command), "rpicam-raw --segment 0 -t 0 --width %d --height %d -o - -n --framerate 2", WIDTH, HEIGHT);
-    snprintf(command, sizeof(command), "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate 30", WIDTH, HEIGHT);
+    char* videoPipeCommand;
+    if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
+        perror("Failed to create videoPipeCommand");
+        return -1;
+    }
 
-
-    // Create a pipe to capture camera data
-    FILE *pipe = popen(command, "r");
-    if (!pipe) {
-        perror("Error opening pipe");
+    // Create a videoPipe to capture camera data
+    FILE *videoPipe = popen(videoPipeCommand, "r");
+    if (!videoPipe) {
+        perror("Error opening videoPipe");
         SDL_DestroyTexture(cameraTexture);
         SDL_DestroyRenderer(rend);
         SDL_DestroyWindow(win);
@@ -95,37 +98,41 @@ int main(){
         return -1;
     }
 
+    free(videoPipeCommand);
+
     // Main loop
     SDL_Event event;
     while (1) {
 
         // Check for events (e.g., window close)
         while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
+            if (event.type == SDL_QUIT  || event.key.keysym.scancode == SDL_SCANCODE_X) {
                 SDL_DestroyTexture(cameraTexture);
                 SDL_DestroyRenderer(rend);
                 SDL_DestroyWindow(win);
                 SDL_Quit();
-                pclose(pipe);
+                pclose(videoPipe);
                 return 0;
             }
         }
 
-        // Read camera data from the pipe
-        
-        // char buffer[(int)(WIDTH * HEIGHT * 1.5)];
-        // size_t bytesRead = fread(buffer, sizeof(buffer), 1, pipe); // swapped sizeof(buffer) and 1
+        // Read camera data from the videoPipe
+        char frameBuffer[YUV_FRAME_SIZE];
+        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // yuv420
+        /* Fallback works
             Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
             Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
             Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
 
-            fread(yBuffer, 1, WIDTH * HEIGHT, pipe);
-            fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, pipe);
-            fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, pipe);
+            fread(yBuffer, 1, WIDTH * HEIGHT, videoPipe);
+            fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
+            fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
 
             SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
+        */
 
         // yuv420 end
 
@@ -141,7 +148,7 @@ int main(){
 
         // Update the texture with the new camera data
         
-        // SDL_UpdateTexture(cameraTexture, NULL, buffer, (int)(WIDTH * 1.5));
+        
 
         // // Unlock
         // SDL_UnlockTexture(cameraTexture);

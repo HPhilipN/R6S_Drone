@@ -23,12 +23,6 @@ EXEC := main
 
 # default recipe
 all: $(EXEC)
- 
-showfont: showfont.c Makefile
-	$(CC) -o $@ $@.c $(CFLAGS) $(LIBS)
-
-glfont: glfont.c Makefile
-	$(CC) -o $@ $@.c $(CFLAGS) $(LIBS)
 
 # recipe for building the final executable
 $(EXEC): $(OBJS) $(HDRS) Makefile

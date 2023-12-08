@@ -59,17 +59,17 @@ int main(){
 
 // networking stuff
     // int connection = initServer();
-    int connection = 0;
+    // int connection = 0;
 
-    pthread_t cameraThread;
+    // pthread_t cameraThread;
     // pthread_t controlThread;
 
-    pthread_create(&cameraThread, NULL, camera, &connection);
+    // pthread_create(&cameraThread, NULL, camera, &connection);
     // pthread_create(&controlThread, NULL, control, NULL);
 
 // networking stuff end
 
-/*
+
 
     // returns zero on success else non-zero
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -180,7 +180,7 @@ int main(){
         
     }
 
-*/
+
 
     return 0;
 }

@@ -38,7 +38,7 @@ static void sleepForMs(long long delayInMs)
 /* Calculate a checksum for the buffer */
 uint8_t netChecksum(char* buffer) {
     uint8_t result = 0;
-    for (int i = 0; i < sizeof(buffer); i++) {
+    for (int i = 0; i < YUV_FRAME_SIZE; i++) {
         result ^= buffer[i];
     }
     return result;
@@ -62,8 +62,8 @@ static void* netCam(void* arg){
 
     while(stopFlag != 1){
         char frameBuffer[YUV_FRAME_SIZE];
-        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
-        printf("Sender Checksum: %d\n", (int)netChecksum(frameBuffer));
+        size_t readResult = fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        printf("Bytes Read: %zu, Sender Checksum: %d\n", readResult, (int)netChecksum(frameBuffer));
         write(connection, frameBuffer, sizeof(frameBuffer));
     }
 

@@ -116,7 +116,7 @@ int main(){
             write(socket, buff, sizeof(buff));
         }
 
-        // SDL_Delay(30);
+        SDL_Delay(30);
 
     }
 

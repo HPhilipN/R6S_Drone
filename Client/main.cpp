@@ -15,10 +15,10 @@
 
 #include "clientNet.hpp"
 
-static const int WIDTH = 640;
-static const int HEIGHT = 480;
+static const int WIDTH = 320;
+static const int HEIGHT = 240;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
-static const int FRAMERATE = 30;
+static const int FRAMERATE = 24;
 // static int socket;
 // static int stopFlag;
 #define MAX 64
@@ -43,7 +43,7 @@ int main(){
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
     }
-    SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
+    SDL_Window* win = SDL_CreateWindow("R6 Drone", // creates a window
                                        SDL_WINDOWPOS_CENTERED,
                                        SDL_WINDOWPOS_CENTERED,
                                        WIDTH, HEIGHT, 0);
@@ -140,7 +140,7 @@ int main(){
             write(socket, buff, sizeof(buff));
         }
 
-        SDL_Delay(30);
+        // SDL_Delay(30);
 
     }
 

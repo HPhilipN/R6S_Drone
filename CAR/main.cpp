@@ -18,10 +18,10 @@
 #include "cam.hpp"
 #include "control.hpp"
 
-static const int WIDTH = 640;
-static const int HEIGHT = 480;
+static const int WIDTH = 320;
+static const int HEIGHT = 240;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
-static const int FRAMERATE = 30;
+static const int FRAMERATE = 24;
 static int stopFlag = 0;
 
 static void sleepForMs(long long delayInMs)
@@ -252,7 +252,7 @@ int main(){
             return 0;
         }
 
-        SDL_Delay(30);
+        // SDL_Delay(30);
 
         
     }

@@ -12,6 +12,7 @@ int initServer(){
         printf("ERROR: Server socket creation failed\n");
         exit(1);
     }
+    printf("Server socket creation successful\n");
     bzero(&servAddr, sizeof(servAddr));
 
     servAddr.sin_family = AF_INET;
@@ -22,11 +23,13 @@ int initServer(){
         printf("ERROR: Server socket bind failed\n");
         exit(1);
     }
+    printf("Server socket bind successful\n");
 
     if((listen(servSock, 5)) != 0){
         printf("ERROR: Server listen failed\n");
         exit(1);
     }
+    printf("Server listen successful\n");
     len = sizeof(cliAddr);
 
     servConnection = accept(servSock, (struct sockaddr*)&cliAddr, &len);
@@ -34,6 +37,7 @@ int initServer(){
         printf("ERROR: Server accept failed\n");
         exit(1);
     }
+    printf("Server accept successful\n");
 
     return servConnection;
 }

@@ -12,6 +12,7 @@ int initClient(){
         printf("ERROR: Client socket creation failed\n");
         exit(1);
     }
+    printf("Client socket creation successful\n");
     bzero(&servAddr, sizeof(servAddr));
 
     servAddr.sin_family = AF_INET;
@@ -22,6 +23,7 @@ int initClient(){
         printf("ERROR: Connection with server failed\n");
         exit(1);
     }
+    printf("Client connection with server successful\n");
 
     return cliSock;
 }

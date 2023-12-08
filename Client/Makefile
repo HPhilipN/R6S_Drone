@@ -13,7 +13,7 @@ CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image
 HDRS :=
 
 # add source files here
-SRCS := main.cpp ../CAR/network.cpp
+SRCS := main.cpp clientNet.cpp
 
 # generate names of object files
 OBJS := $(SRCS:.cpp=.o)

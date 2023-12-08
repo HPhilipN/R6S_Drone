@@ -13,7 +13,7 @@
 #include <time.h>
 #include <pthread.h>
 
-#include "../CAR/network.hpp"
+#include "clientNet.hpp"
 
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
@@ -27,7 +27,7 @@ int main(){
     char* buff = "guh";
     while(1){
         read(socket, buff, sizeof(buff));
-        printf("%c", buff[0]);
+        printf("%c%c%c\n", buff[0], buff[1], buff[2]);
     }
     
     // if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {

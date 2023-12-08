@@ -54,7 +54,7 @@ void driveForward()
     setValue(9, lo);
     //pwm(motor speed)
     pwmController(0, 1000, 500);
-    pwmController(0, 1000, 500);
+    pwmController(1, 1000, 500);
 }
 
 void driveReverse()
@@ -80,4 +80,6 @@ void stop()
     //right motor
     setValue(10, lo);
     setValue(9, lo);
+
+    
 }

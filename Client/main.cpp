@@ -19,7 +19,7 @@ static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
 static const int FRAMERATE = 2;
-static int socket;
+// static int socket;
 // static int stopFlag;
 #define MAX 64
 
@@ -46,7 +46,7 @@ uint8_t netChecksum(char* buffer) {
 
 int main(){
 
-    socket = initClient();
+    int socket = initClient();
     
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());

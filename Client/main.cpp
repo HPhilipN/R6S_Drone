@@ -1,3 +1,4 @@
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -45,26 +46,31 @@ int main(){
     SDL_Event event;
 
     int ready;
-    // while(1){
+    while(1){
 
 
-        uint8_t frameBuffer[YUV_FRAME_SIZE];
-        read(socket, frameBuffer, sizeof(frameBuffer));
+        // uint8_t frameBuffer[YUV_FRAME_SIZE];
+        // read(socket, frameBuffer, sizeof(frameBuffer));
 
-        SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
+        // SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
-        SDL_RenderClear(rend);
+        // SDL_RenderClear(rend);
 
-        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+        // SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
 
-        SDL_RenderPresent(rend);
+        // SDL_RenderPresent(rend);
 
-        SDL_Delay(30);
+        // SDL_Delay(30);
 
-        char buff[1] = {'a'};
-        write(socket, buff, sizeof(buff));
+        // char buff[1] = {'a'};
+        // write(socket, buff, sizeof(buff));
 
-    // }
+        char buff[3];
+        read(socket, buff, sizeof(buff));
+
+        std::cout << buff[0] << buff[1] << buff[2];
+
+    }
 
     while (SDL_PollEvent(&event)) {
         if (event.type == SDL_QUIT) {

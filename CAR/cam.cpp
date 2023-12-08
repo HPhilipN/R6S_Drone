@@ -32,11 +32,11 @@ void* camera(void* arg){
         pthread_exit(NULL);
     }
 
-    // while(1){
-        uint8_t frameBuffer[YUV_FRAME_SIZE];
-        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+    while(1){
+        // uint8_t frameBuffer[YUV_FRAME_SIZE];
+        // fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
 
-        write(connection, frameBuffer, sizeof(frameBuffer));
+        // write(connection, frameBuffer, sizeof(frameBuffer));
 
         // sleepForMs(30);
         
@@ -50,5 +50,8 @@ void* camera(void* arg){
         // do{
         //     read(connection, buff, sizeof(buff));
         // }while(buff[0] != 'a');
-    // }
+
+        char buff[3] = {'g', 'u', 'h'};
+        write(connection, buff, sizeof(buff));
+    }
 }

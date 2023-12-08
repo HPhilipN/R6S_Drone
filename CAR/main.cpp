@@ -155,29 +155,29 @@ int main(){
         // Present the renderer
         SDL_RenderPresent(rend);
 
-        const Uint8* keystates = SDL_GetKeyboardState(NULL);
-        if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
-            if(keystates[SDL_SCANCODE_W]){
-                printf("FWD\n");
-                driveForward();
-            }
-            if(keystates[SDL_SCANCODE_A]){
-                printf("LEFT\n");
-                motorLeftFWD();
-            }
-            if(keystates[SDL_SCANCODE_S]){
-                printf("RVRSE\n");
-                driveReverse();
-            }
-            if(keystates[SDL_SCANCODE_D]){
-                printf("Right\n");
-                motorRightFWD();
-            }
-        }else{
-            stop();
-        }
+        // const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        // if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
+        //     if(keystates[SDL_SCANCODE_W]){
+        //         printf("FWD\n");
+        //         driveForward();
+        //     }
+        //     if(keystates[SDL_SCANCODE_A]){
+        //         printf("LEFT\n");
+        //         motorLeftFWD();
+        //     }
+        //     if(keystates[SDL_SCANCODE_S]){
+        //         printf("RVRSE\n");
+        //         driveReverse();
+        //     }
+        //     if(keystates[SDL_SCANCODE_D]){
+        //         printf("Right\n");
+        //         motorRightFWD();
+        //     }
+        // }else{
+        //     stop();
+        // }
 
-        SDL_Delay(33);
+        SDL_Delay(30);
 
         
     }

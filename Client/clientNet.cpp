@@ -4,8 +4,8 @@
 
 int initClient(){
 
-    int cliSock, cliConnection;
-    struct sockaddr_in servAddr, cliAddr;
+    int cliSock;
+    struct sockaddr_in servAddr;
 
     cliSock = socket(AF_INET, SOCK_STREAM, 0);
     if(cliSock == -1){

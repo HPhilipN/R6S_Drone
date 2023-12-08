@@ -51,7 +51,7 @@ int main(){
 
     SDL_Event event;
 
-    int ready;
+    // int ready;
     while(1){
 
         while (SDL_PollEvent(&event)) {

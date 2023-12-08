@@ -13,7 +13,7 @@ CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image
 HDRS :=
 
 # add source files here
-SRCS := main.cpp ctrlgpio.cpp motor.cpp cam.cpp network.cpp
+SRCS := main.cpp
 
 # generate names of object files
 OBJS := $(SRCS:.cpp=.o)

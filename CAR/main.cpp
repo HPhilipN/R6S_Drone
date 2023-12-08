@@ -61,10 +61,10 @@ int main(){
     int connection = initServer();
 
     pthread_t cameraThread;
-    pthread_t controlThread;
+    // pthread_t controlThread;
 
-    pthread_create(&cameraThread, NULL, camera, NULL);
-    pthread_create(&controlThread, NULL, control, NULL);
+    pthread_create(&cameraThread, NULL, camera, &connection);
+    // pthread_create(&controlThread, NULL, control, NULL);
 
 // networking stuff end
 

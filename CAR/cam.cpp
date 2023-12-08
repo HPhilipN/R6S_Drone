@@ -38,6 +38,15 @@ void* camera(void* arg){
 
         write(connection, frameBuffer, sizeof(frameBuffer));
 
-        sleepForMs(30);
+        // sleepForMs(30);
+        
+        // int ready;
+        // do{
+        //     read(connection, *ready, sizeof[ready]);
+            
+        // }while(ready != 1);
+
+        char* buff[1];
+        read(connection, buff, sizeof(buff));
     }
 }

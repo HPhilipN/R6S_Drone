@@ -42,7 +42,10 @@ int main(){
     // Set up SDL texture to hold the camera stream
     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
+    int ready;
     while(1){
+
+
         uint8_t frameBuffer[YUV_FRAME_SIZE];
         read(socket, frameBuffer, sizeof(frameBuffer));
 
@@ -55,6 +58,9 @@ int main(){
         SDL_RenderPresent(rend);
 
         SDL_Delay(30);
+
+        char* buff[1];
+        write(socket, buff, sizeof(buff));
 
     }
 

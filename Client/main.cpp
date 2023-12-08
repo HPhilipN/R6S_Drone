@@ -19,16 +19,11 @@ static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
 static const int FRAMERATE = 30;
+#define MAX 64
 
 int main(){
 
     int socket = initClient();
-
-    // char* buff = "guh";
-    // while(1){
-    //     read(socket, buff, sizeof(buff));
-    //     printf("%c%c%c\n", buff[0], buff[1], buff[2]);
-    // }
     
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
@@ -60,8 +55,7 @@ int main(){
                 SDL_DestroyRenderer(rend);
                 SDL_DestroyWindow(win);
                 SDL_Quit();
-                // pclose(videoPipe);
-                // return 0;
+                return 0;
             }
         }
 
@@ -84,16 +78,38 @@ int main(){
 
         SDL_RenderPresent(rend);
 
+        char buff[1];
+        const Uint8* keystates = SDL_GetKeyboardState(NULL);
+        if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){
+            if(keystates[SDL_SCANCODE_W]){
+                printf("FWD\n");
+                buff[0] = 'f';
+                write(socket, buff, sizeof(buff));
+            }
+            if(keystates[SDL_SCANCODE_A]){
+                printf("LEFT\n");
+                buff[0] = 'l';
+                write(socket, buff, sizeof(buff));
+            }
+            if(keystates[SDL_SCANCODE_S]){
+                printf("RVRSE\n");
+                buff[0] = 'b';
+                write(socket, buff, sizeof(buff));
+            }
+            if(keystates[SDL_SCANCODE_D]){
+                printf("Right\n");
+                buff[0] = 'r';
+                write(socket, buff, sizeof(buff));
+            }else{
+                buff[0] = 'n';
+                write(socket, buff, sizeof(buff));
+            }
+        }else{
+            buff[0] = 's';
+            write(socket, buff, sizeof(buff));
+        }
+
         SDL_Delay(30);
-
-        // char buff[1] = {'a'};
-        // write(socket, buff, sizeof(buff));
-
-        // char buff[3];
-        // read(socket, buff, sizeof(buff));
-
-        // // std::cout << buff[0] << buff[1] << buff[2];
-        // printf("%c", buff[0]);
 
     }
 

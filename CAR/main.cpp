@@ -184,6 +184,28 @@ int main(){
         //     stop();
         // }
 
+        char buff[1];
+        read(connection, buff, sizeof(buff));
+        if(buff[0] == 'f'){
+            printf("FWD\n");
+            driveForward();
+        }
+        if(buff[0] == 'l'){
+            printf("LEFT\n");
+            motorLeftFWD();
+        }
+        if(buff[0] == 'b'){
+            printf("RVRSE\n");
+            driveReverse();
+        }
+        if(buff[0] == 'r'){
+            printf("Right\n");
+            motorRightFWD();
+        }
+        if(buff[0] == 's'){
+            stop();
+        }
+
         SDL_Delay(30);
 
         

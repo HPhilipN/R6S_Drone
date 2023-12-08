@@ -65,7 +65,7 @@ static void* netCam(void* arg){
         size_t readResult = fread(frameBuffer, 1, YUV_FRAME_SIZE, videoPipe);
         // printf("Bytes Read: %zu, Sender Checksum: %d\n", readResult, (int)netChecksum(frameBuffer));
         size_t writeResult = write(connection, frameBuffer, YUV_FRAME_SIZE);
-        printf("Bytes Wrote: %zu\n", writeResult);
+        // printf("Bytes Wrote: %zu\n", writeResult);
     }
 
     pthread_exit(NULL);

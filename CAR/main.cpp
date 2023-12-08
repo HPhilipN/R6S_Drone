@@ -22,6 +22,7 @@ static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
 static const int FRAMERATE = 30;
+static int stopFlag = 0;
 
 static void sleepForMs(long long delayInMs)
 {
@@ -32,6 +33,29 @@ static void sleepForMs(long long delayInMs)
     int nanoseconds = delayNs % NS_PER_SECOND;
     struct timespec reqDelay = {seconds, nanoseconds};
     nanosleep(&reqDelay, (struct timespec *) NULL);
+}
+
+static void* netCam(void* arg){
+    int connection = *(int*)arg;
+    // Command to capture camera data
+    char* videoPipeCommand;
+    if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
+        perror("Failed to create videoPipeCommand");
+        pthread_exit(NULL);
+    }
+
+    // Create a videoPipe to capture camera data
+    FILE *videoPipe = popen(videoPipeCommand, "r");
+    if (!videoPipe) {
+        perror("Error opening videoPipe");
+        pthread_exit(NULL);
+    }
+
+    while(stopFlag != 1){
+        char frameBuffer[YUV_FRAME_SIZE];
+        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        write(connection, frameBuffer, sizeof(frameBuffer));
+    }
 }
 
 int main(){
@@ -95,25 +119,28 @@ int main(){
     // Set up SDL texture to hold the camera stream
     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
-    // Command to capture camera data
-    char* videoPipeCommand;
-    if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
-        perror("Failed to create videoPipeCommand");
-        return -1;
-    }
+    // // Command to capture camera data
+    // char* videoPipeCommand;
+    // if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
+    //     perror("Failed to create videoPipeCommand");
+    //     return -1;
+    // }
 
-    // Create a videoPipe to capture camera data
-    FILE *videoPipe = popen(videoPipeCommand, "r");
-    if (!videoPipe) {
-        perror("Error opening videoPipe");
-        SDL_DestroyTexture(cameraTexture);
-        SDL_DestroyRenderer(rend);
-        SDL_DestroyWindow(win);
-        SDL_Quit();
-        return -1;
-    }
+    // // Create a videoPipe to capture camera data
+    // FILE *videoPipe = popen(videoPipeCommand, "r");
+    // if (!videoPipe) {
+    //     perror("Error opening videoPipe");
+    //     SDL_DestroyTexture(cameraTexture);
+    //     SDL_DestroyRenderer(rend);
+    //     SDL_DestroyWindow(win);
+    //     SDL_Quit();
+    //     return -1;
+    // }
 
-    free(videoPipeCommand);
+    // free(videoPipeCommand);
+
+    pthread_t camThread;
+    pthread_create(&camThread, NULL, netCam, &connection);
 
     // Main loop
     // SDL_Event event;
@@ -132,9 +159,9 @@ int main(){
         // }
 
         // // Read camera data from the videoPipe
-        char frameBuffer[YUV_FRAME_SIZE];
-        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
-        write(connection, frameBuffer, sizeof(frameBuffer));
+        // char frameBuffer[YUV_FRAME_SIZE];
+        // fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        // write(connection, frameBuffer, sizeof(frameBuffer));
         // SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // //  Fallback works
@@ -207,6 +234,7 @@ int main(){
         }
         if(buff[0] == 'q'){
             stop();
+            stopFlag = 1;
             return 0;
         }
 
@@ -216,6 +244,6 @@ int main(){
     }
 
 
-
+    pthread_join(camThread, NULL);
     return 0;
 }

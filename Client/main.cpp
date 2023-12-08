@@ -18,7 +18,7 @@
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
-static const int FRAMERATE = 30;
+static const int FRAMERATE = 2;
 #define MAX 64
 
 int main(){

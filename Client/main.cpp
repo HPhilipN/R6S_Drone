@@ -18,7 +18,7 @@
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
-static const int FRAMERATE = 2;
+static const int FRAMERATE = 30;
 // static int socket;
 // static int stopFlag;
 #define MAX 64
@@ -35,14 +35,6 @@ static const int FRAMERATE = 2;
 //     pthread_exit(NULL);
 // }
 
-/* Calculate a checksum for the buffer */
-uint8_t netChecksum(char* buffer) {
-    uint8_t result = 0;
-    for (int i = 0; i < sizeof(buffer); i++) {
-        result ^= buffer[i];
-    }
-    return result;
-}
 
 int main(){
 
@@ -90,7 +82,7 @@ int main(){
         char frameBuffer[YUV_FRAME_SIZE];
         bzero(frameBuffer, YUV_FRAME_SIZE);
         size_t bytesRead = recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
-        printf("Bytes Read: %zu, Receiver Checksum: %d\n", bytesRead, (int)netChecksum(frameBuffer));
+        // printf("Bytes Read: %zu, Receiver Checksum: %d\n", bytesRead, (int)netChecksum(frameBuffer));
         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];

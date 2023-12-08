@@ -21,7 +21,7 @@
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
-static const int FRAMERATE = 2;
+static const int FRAMERATE = 30;
 static int stopFlag = 0;
 
 static void sleepForMs(long long delayInMs)
@@ -35,14 +35,14 @@ static void sleepForMs(long long delayInMs)
     nanosleep(&reqDelay, (struct timespec *) NULL);
 }
 
-/* Calculate a checksum for the buffer */
+/* Calculate a checksum for the buffer 
 uint8_t netChecksum(char* buffer) {
     uint8_t result = 0;
     for (int i = 0; i < YUV_FRAME_SIZE; i++) {
         result ^= buffer[i];
     }
     return result;
-}
+} */
 
 static void* netCam(void* arg){
     int connection = *(int*)arg;

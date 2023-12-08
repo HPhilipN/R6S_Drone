@@ -50,7 +50,7 @@ int initClient(){
     struct sockaddr_in servAddr, cliAddr;
 
     cliSock = socket(AF_INET, SOCK_STREAM, 0);
-    if(cliSock = -1){
+    if(cliSock == -1){
         printf("ERROR: Client socket creation failed\n");
         exit(1);
     }

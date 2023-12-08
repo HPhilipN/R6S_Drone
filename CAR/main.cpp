@@ -58,7 +58,7 @@ int main(){
     setDirection(10, dirOut);
 
 // networking stuff
-    // int connection = initServer();
+    int connection = initServer();
     // int connection = 0;
 
     // pthread_t cameraThread;
@@ -130,6 +130,8 @@ int main(){
         // Read camera data from the videoPipe
         char frameBuffer[YUV_FRAME_SIZE];
         fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+
+        write(connection, frameBuffer, sizeof(frameBuffer));
         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // //  Fallback works

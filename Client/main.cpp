@@ -23,7 +23,7 @@ static const int FRAMERATE = 30;
 static int stopFlag;
 #define MAX 64
 
-static void* displayThread(void *arg){
+static void* display(void *arg){
     // SDL_Renderer* rend = *(SDL_Renderer**)arg;
     int socket = *(int*)arg;
     SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
@@ -52,7 +52,8 @@ static void* displayThread(void *arg){
                 SDL_DestroyRenderer(rend);
                 SDL_DestroyWindow(win);
                 SDL_Quit();
-                return 0;
+                pthread_exit(NULL);
+                // return 0;
             }
         }
         char frameBuffer[YUV_FRAME_SIZE];
@@ -91,6 +92,9 @@ int main(){
  
     // // Set up SDL texture to hold the camera stream
     // SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+
+    pthread_t displayThread;
+    pthread_create(&displayThread, NULL, display, &socket);
 
     SDL_Event event;
 
@@ -173,5 +177,6 @@ int main(){
     // SDL_DestroyWindow(win);
     // SDL_Quit();
 
+    pthread_join(displayThread, NULL);
     return 0;
 }

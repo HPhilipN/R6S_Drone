@@ -66,6 +66,8 @@ static void* netCam(void* arg){
         printf("Sender Checksum: %d\n", (int)netChecksum(frameBuffer));
         write(connection, frameBuffer, sizeof(frameBuffer));
     }
+
+    pthread_exit(NULL);
 }
 
 int main(){

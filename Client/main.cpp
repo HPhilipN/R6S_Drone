@@ -81,7 +81,8 @@ int main(){
 
         char frameBuffer[YUV_FRAME_SIZE];
         bzero(frameBuffer, YUV_FRAME_SIZE);
-        size_t bytesRead = recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
+        recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
+        // size_t bytesRead = recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
         // printf("Bytes Read: %zu, Receiver Checksum: %d\n", bytesRead, (int)netChecksum(frameBuffer));
         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 

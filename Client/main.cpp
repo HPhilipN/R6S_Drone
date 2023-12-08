@@ -59,7 +59,7 @@ int main(){
 
         SDL_Delay(30);
 
-        char* buff[1];
+        char buff[1] = {'a'};
         write(socket, buff, sizeof(buff));
 
     }

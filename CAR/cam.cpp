@@ -46,7 +46,9 @@ void* camera(void* arg){
             
         // }while(ready != 1);
 
-        char* buff[1];
-        read(connection, buff, sizeof(buff));
+        char buff[1];
+        do{
+            read(connection, buff, sizeof(buff));
+        }while(buff[0] != 'a');
     }
 }

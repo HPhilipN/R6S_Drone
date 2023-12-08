@@ -13,7 +13,7 @@
 //pin 10 & 8 clockwise
 //pin 7 & 9 counter clockwise
 //TODO maybe add flags for motor state?
-void motorLeftFWD()
+void motorRightFWD()
 {
     
     //left motor
@@ -29,7 +29,7 @@ void motorLeftFWD()
     //pwmController();
 }
 
-void motorRightFWD()
+void motorLeftFWD()
 {
 
     //left motor

@@ -19,11 +19,34 @@ static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
 static const int FRAMERATE = 2;
+static int socket;
+// static int stopFlag;
 #define MAX 64
+
+// static void* displayThread(void *arg){
+//     SDL_Renderer* rend = *(SDL_Renderer**)arg;
+//     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+//     while(stopFlag != 0){
+//         char frameBuffer[YUV_FRAME_SIZE];
+//         bzero(frameBuffer, YUV_FRAME_SIZE);
+//         read(socket, frameBuffer, sizeof(frameBuffer));
+//         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
+//     }
+//     pthread_exit(NULL);
+// }
+
+/* Calculate a checksum for the buffer */
+uint8_t netChecksum(char* buffer) {
+    uint8_t result = 0;
+    for (int i = 0; i < sizeof(buffer); i++) {
+        result ^= buffer[i];
+    }
+    return result;
+}
 
 int main(){
 
-    int socket = initClient();
+    socket = initClient();
     
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
@@ -62,9 +85,12 @@ int main(){
             }
         }
 
+        
+
         char frameBuffer[YUV_FRAME_SIZE];
         bzero(frameBuffer, YUV_FRAME_SIZE);
         read(socket, frameBuffer, sizeof(frameBuffer));
+        printf("Receiver Checksum: %d\n", (int)netChecksum(frameBuffer));
         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
@@ -111,6 +137,11 @@ int main(){
             if(keystates[SDL_SCANCODE_X]){
                 buff[0] = 'q';
                 write(socket,buff,sizeof(buff));
+                SDL_DestroyTexture(cameraTexture);
+                SDL_DestroyRenderer(rend);
+                SDL_DestroyWindow(win);
+                SDL_Quit();
+                return 0;
             }
             buff[0] = 's';
             write(socket, buff, sizeof(buff));

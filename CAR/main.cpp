@@ -35,6 +35,15 @@ static void sleepForMs(long long delayInMs)
     nanosleep(&reqDelay, (struct timespec *) NULL);
 }
 
+/* Calculate a checksum for the buffer */
+uint8_t netChecksum(char* buffer) {
+    uint8_t result = 0;
+    for (int i = 0; i < sizeof(buffer); i++) {
+        result ^= buffer[i];
+    }
+    return result;
+}
+
 static void* netCam(void* arg){
     int connection = *(int*)arg;
     // Command to capture camera data
@@ -54,6 +63,7 @@ static void* netCam(void* arg){
     while(stopFlag != 1){
         char frameBuffer[YUV_FRAME_SIZE];
         fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        printf("Sender Checksum: %d\n", (int)netChecksum(frameBuffer));
         write(connection, frameBuffer, sizeof(frameBuffer));
     }
 }
@@ -66,9 +76,8 @@ int main(){
     gpioExport(9);
     gpioExport(10);
     
-    //export pwm
-    pwmExport(0);
-    pwmExport(1);
+    //export pwm done in motor controls
+
     
     // wait for udev
     sleepForMs(100);
@@ -99,25 +108,25 @@ int main(){
 
 
 
-    // returns zero on success else non-zero
-    if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
-        printf("error initializing SDL: %s\n", SDL_GetError());
-    }
-    SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
-                                       SDL_WINDOWPOS_CENTERED,
-                                       SDL_WINDOWPOS_CENTERED,
-                                       WIDTH, HEIGHT, 0);
+    // // returns zero on success else non-zero
+    // if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
+    //     printf("error initializing SDL: %s\n", SDL_GetError());
+    // }
+    // SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
+    //                                    SDL_WINDOWPOS_CENTERED,
+    //                                    SDL_WINDOWPOS_CENTERED,
+    //                                    WIDTH, HEIGHT, 0);
  
     
-    // triggers the program that controls
-    // your graphics hardware and sets flags
-    Uint32 render_flags = SDL_RENDERER_ACCELERATED;
+    // // triggers the program that controls
+    // // your graphics hardware and sets flags
+    // Uint32 render_flags = SDL_RENDERER_ACCELERATED;
  
-    // creates a renderer to render our images
-    SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
+    // // creates a renderer to render our images
+    // SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
  
-    // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+    // // Set up SDL texture to hold the camera stream
+    // SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
     // // Command to capture camera data
     // char* videoPipeCommand;

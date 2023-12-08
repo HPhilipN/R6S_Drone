@@ -19,14 +19,42 @@ static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
 static const int FRAMERATE = 30;
-int socket;
+// int socket;
 static int stopFlag;
 #define MAX 64
 
 static void* displayThread(void *arg){
-    SDL_Renderer* rend = *(SDL_Renderer**)arg;
+    // SDL_Renderer* rend = *(SDL_Renderer**)arg;
+    int socket = *(int*)arg;
+    SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
+                                       SDL_WINDOWPOS_CENTERED,
+                                       SDL_WINDOWPOS_CENTERED,
+                                       WIDTH, HEIGHT, 0);
+ 
+    
+    // triggers the program that controls
+    // your graphics hardware and sets flags
+    Uint32 render_flags = SDL_RENDERER_ACCELERATED;
+ 
+    // creates a renderer to render our images
+    SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
+ 
     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+
+    SDL_Event event;
     while(stopFlag != 1){
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                // char buff[1];
+                // buff[0] = 'q';
+                // write(socket, buff, sizeof(buff));
+                // SDL_DestroyTexture(cameraTexture);
+                SDL_DestroyRenderer(rend);
+                SDL_DestroyWindow(win);
+                SDL_Quit();
+                return 0;
+            }
+        }
         char frameBuffer[YUV_FRAME_SIZE];
         bzero(frameBuffer, YUV_FRAME_SIZE);
         // read(socket, frameBuffer, sizeof(frameBuffer));
@@ -43,23 +71,23 @@ static void* displayThread(void *arg){
 
 int main(){
 
-    socket = initClient();
+    int socket = initClient();
     
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
     }
-    SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
-                                       SDL_WINDOWPOS_CENTERED,
-                                       SDL_WINDOWPOS_CENTERED,
-                                       WIDTH, HEIGHT, 0);
+    // SDL_Window* win = SDL_CreateWindow("GAME", // creates a window
+    //                                    SDL_WINDOWPOS_CENTERED,
+    //                                    SDL_WINDOWPOS_CENTERED,
+    //                                    WIDTH, HEIGHT, 0);
  
     
-    // triggers the program that controls
-    // your graphics hardware and sets flags
-    Uint32 render_flags = SDL_RENDERER_ACCELERATED;
+    // // triggers the program that controls
+    // // your graphics hardware and sets flags
+    // Uint32 render_flags = SDL_RENDERER_ACCELERATED;
  
-    // creates a renderer to render our images
-    SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
+    // // creates a renderer to render our images
+    // SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
  
     // // Set up SDL texture to hold the camera stream
     // SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
@@ -69,18 +97,18 @@ int main(){
     // int ready;
     while(1){
 
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT) {
-                // char buff[1];
-                // buff[0] = 'q';
-                // write(socket, buff, sizeof(buff));
-                // SDL_DestroyTexture(cameraTexture);
-                SDL_DestroyRenderer(rend);
-                SDL_DestroyWindow(win);
-                SDL_Quit();
-                return 0;
-            }
-        }
+        // while (SDL_PollEvent(&event)) {
+        //     if (event.type == SDL_QUIT) {
+        //         // char buff[1];
+        //         // buff[0] = 'q';
+        //         // write(socket, buff, sizeof(buff));
+        //         // SDL_DestroyTexture(cameraTexture);
+        //         SDL_DestroyRenderer(rend);
+        //         SDL_DestroyWindow(win);
+        //         SDL_Quit();
+        //         return 0;
+        //     }
+        // }
 
         
 

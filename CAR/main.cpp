@@ -205,6 +205,10 @@ int main(){
         if(buff[0] == 's'){
             stop();
         }
+        if(buff[0] == 'q'){
+            stop();
+            return 0;
+        }
 
         SDL_Delay(30);
 

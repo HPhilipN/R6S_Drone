@@ -62,10 +62,10 @@ int main(){
             }
         }
 
-        // char frameBuffer[YUV_FRAME_SIZE];
-        // bzero(frameBuffer, YUV_FRAME_SIZE);
-        // read(socket, frameBuffer, sizeof(frameBuffer));
-        // SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
+        char frameBuffer[YUV_FRAME_SIZE];
+        bzero(frameBuffer, YUV_FRAME_SIZE);
+        read(socket, frameBuffer, sizeof(frameBuffer));
+        SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
         // Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
@@ -75,11 +75,11 @@ int main(){
         // read(socket, vBuffer, sizeof(vBuffer));
         // SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
 
-        // SDL_RenderClear(rend);
+        SDL_RenderClear(rend);
 
-        // SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
 
-        // SDL_RenderPresent(rend);
+        SDL_RenderPresent(rend);
 
         char buff[1];
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
@@ -108,7 +108,7 @@ int main(){
                 write(socket, buff, sizeof(buff));
             }
         }else{
-            if(keystates[SDL_SCANCODE_Q]){
+            if(keystates[SDL_SCANCODE_X]){
                 buff[0] = 'q';
                 write(socket,buff,sizeof(buff));
             }

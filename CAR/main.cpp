@@ -132,9 +132,9 @@ int main(){
         // }
 
         // // Read camera data from the videoPipe
-        // char frameBuffer[YUV_FRAME_SIZE];
-        // fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
-        // write(connection, frameBuffer, sizeof(frameBuffer));
+        char frameBuffer[YUV_FRAME_SIZE];
+        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        write(connection, frameBuffer, sizeof(frameBuffer));
         // SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
         // //  Fallback works

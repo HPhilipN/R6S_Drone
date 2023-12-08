@@ -56,6 +56,8 @@ static void* netCam(void* arg){
         fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
         write(connection, frameBuffer, sizeof(frameBuffer));
     }
+
+    pthread_exit(NULL);
 }
 
 int main(){

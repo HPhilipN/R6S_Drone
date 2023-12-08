@@ -131,36 +131,36 @@ int main(){
             }
         }
 
-        // Read camera data from the videoPipe
-        char frameBuffer[YUV_FRAME_SIZE];
-        fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
-        write(connection, frameBuffer, sizeof(frameBuffer));
-        SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
+        // // Read camera data from the videoPipe
+        // char frameBuffer[YUV_FRAME_SIZE];
+        // fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
+        // write(connection, frameBuffer, sizeof(frameBuffer));
+        // SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
-        //  Fallback works
-            // Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
-            // Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
-            // Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
+        // //  Fallback works
+        //     // Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
+        //     // Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
+        //     // Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
 
-            // fread(yBuffer, 1, WIDTH * HEIGHT, videoPipe);
-            // fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
-            // fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
+        //     // fread(yBuffer, 1, WIDTH * HEIGHT, videoPipe);
+        //     // fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
+        //     // fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
 
-            // write(connection, yBuffer, sizeof(yBuffer));
-            // write(connection, uBuffer, sizeof(uBuffer));
-            // write(connection, vBuffer, sizeof(vBuffer));
+        //     // write(connection, yBuffer, sizeof(yBuffer));
+        //     // write(connection, uBuffer, sizeof(uBuffer));
+        //     // write(connection, vBuffer, sizeof(vBuffer));
 
-            // SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
-        //  Fallback end
+        //     // SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
+        // //  Fallback end
 
-        // Clear the renderer
-        SDL_RenderClear(rend);
+        // // Clear the renderer
+        // SDL_RenderClear(rend);
 
-        // Copy the texture to the renderer
-        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+        // // Copy the texture to the renderer
+        // SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
 
-        // Present the renderer
-        SDL_RenderPresent(rend);
+        // // Present the renderer
+        // SDL_RenderPresent(rend);
 
         // const Uint8* keystates = SDL_GetKeyboardState(NULL);
         // if(keystates[SDL_SCANCODE_W] || keystates[SDL_SCANCODE_A] || keystates[SDL_SCANCODE_S] || keystates[SDL_SCANCODE_D]){

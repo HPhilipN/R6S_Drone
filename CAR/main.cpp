@@ -14,6 +14,9 @@
 
 #include "motor.h"
 #include "ctrlgpio.h"
+#include "network.hpp"
+#include "cam.hpp"
+#include "control.hpp"
 
 static const int WIDTH = 640;
 static const int HEIGHT = 480;
@@ -52,7 +55,20 @@ int main(){
     setDirection(7, dirOut);
     setDirection(8, dirOut);
     setDirection(9, dirOut);
-    setDirection(10, dirOut);    
+    setDirection(10, dirOut);
+
+// networking stuff
+    int connection = initServer();
+
+    pthread_t cameraThread;
+    pthread_t controlThread;
+
+    pthread_create(&cameraThread, NULL, camera, NULL);
+    pthread_create(&controlThread, NULL, control, NULL);
+
+// networking stuff end
+
+/*
 
     // returns zero on success else non-zero
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
@@ -115,17 +131,17 @@ int main(){
         fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
-        /* Fallback works
-            Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
-            Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
-            Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
+        // //  Fallback works
+        //     Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
+        //     Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
+        //     Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
 
-            fread(yBuffer, 1, WIDTH * HEIGHT, videoPipe);
-            fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
-            fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
+        //     fread(yBuffer, 1, WIDTH * HEIGHT, videoPipe);
+        //     fread(uBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
+        //     fread(vBuffer, 1, WIDTH / 2 * HEIGHT / 2, videoPipe);
 
-            SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
-        */
+        //     SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
+        
 
         // Clear the renderer
         SDL_RenderClear(rend);
@@ -162,6 +178,8 @@ int main(){
 
         
     }
+
+*/
 
     return 0;
 }

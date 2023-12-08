@@ -32,7 +32,7 @@ void* camera(void* arg){
         pthread_exit(NULL);
     }
 
-    while(1){
+    // while(1){
         uint8_t frameBuffer[YUV_FRAME_SIZE];
         fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
 
@@ -46,9 +46,9 @@ void* camera(void* arg){
             
         // }while(ready != 1);
 
-        char buff[1];
-        do{
-            read(connection, buff, sizeof(buff));
-        }while(buff[0] != 'a');
-    }
+        // char buff[1];
+        // do{
+        //     read(connection, buff, sizeof(buff));
+        // }while(buff[0] != 'a');
+    // }
 }

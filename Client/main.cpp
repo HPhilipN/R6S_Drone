@@ -42,8 +42,10 @@ int main(){
     // Set up SDL texture to hold the camera stream
     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
+    SDL_Event event;
+
     int ready;
-    while(1){
+    // while(1){
 
 
         uint8_t frameBuffer[YUV_FRAME_SIZE];
@@ -62,12 +64,23 @@ int main(){
         char buff[1] = {'a'};
         write(socket, buff, sizeof(buff));
 
+    // }
+
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) {
+            SDL_DestroyTexture(cameraTexture);
+            SDL_DestroyRenderer(rend);
+            SDL_DestroyWindow(win);
+            SDL_Quit();
+            // pclose(videoPipe);
+            // return 0;
+        }
     }
 
-    SDL_DestroyTexture(cameraTexture);
-    SDL_DestroyRenderer(rend);
-    SDL_DestroyWindow(win);
-    SDL_Quit();
+    // SDL_DestroyTexture(cameraTexture);
+    // SDL_DestroyRenderer(rend);
+    // SDL_DestroyWindow(win);
+    // SDL_Quit();
 
     return 0;
 }

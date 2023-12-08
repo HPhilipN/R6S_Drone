@@ -19,26 +19,31 @@ static const int WIDTH = 640;
 static const int HEIGHT = 480;
 static const int YUV_FRAME_SIZE = (int)(WIDTH * HEIGHT * 1.5);
 static const int FRAMERATE = 30;
-// static int socket;
-// static int stopFlag;
+int socket;
+static int stopFlag;
 #define MAX 64
 
-// static void* displayThread(void *arg){
-//     SDL_Renderer* rend = *(SDL_Renderer**)arg;
-//     SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
-//     while(stopFlag != 0){
-//         char frameBuffer[YUV_FRAME_SIZE];
-//         bzero(frameBuffer, YUV_FRAME_SIZE);
-//         read(socket, frameBuffer, sizeof(frameBuffer));
-//         SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
-//     }
-//     pthread_exit(NULL);
-// }
+static void* displayThread(void *arg){
+    SDL_Renderer* rend = *(SDL_Renderer**)arg;
+    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+    while(stopFlag != 1){
+        char frameBuffer[YUV_FRAME_SIZE];
+        bzero(frameBuffer, YUV_FRAME_SIZE);
+        // read(socket, frameBuffer, sizeof(frameBuffer));
+        size_t bytesRead = recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
+        // printf("Bytes Read: %zu, Receiver Checksum: %d\n", bytesRead, (int)netChecksum(frameBuffer));
+        SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
+        SDL_RenderClear(rend);
+        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
+        SDL_RenderPresent(rend);
+    }
+    pthread_exit(NULL);
+}
 
 
 int main(){
 
-    int socket = initClient();
+    socket = initClient();
     
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
@@ -56,8 +61,8 @@ int main(){
     // creates a renderer to render our images
     SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
  
-    // Set up SDL texture to hold the camera stream
-    SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
+    // // Set up SDL texture to hold the camera stream
+    // SDL_Texture *cameraTexture = SDL_CreateTexture(rend, SDL_PIXELFORMAT_IYUV, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT); 
 
     SDL_Event event;
 
@@ -69,7 +74,7 @@ int main(){
                 // char buff[1];
                 // buff[0] = 'q';
                 // write(socket, buff, sizeof(buff));
-                SDL_DestroyTexture(cameraTexture);
+                // SDL_DestroyTexture(cameraTexture);
                 SDL_DestroyRenderer(rend);
                 SDL_DestroyWindow(win);
                 SDL_Quit();
@@ -79,25 +84,17 @@ int main(){
 
         
 
-        char frameBuffer[YUV_FRAME_SIZE];
-        bzero(frameBuffer, YUV_FRAME_SIZE);
-        size_t bytesRead = recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
-        // printf("Bytes Read: %zu, Receiver Checksum: %d\n", bytesRead, (int)netChecksum(frameBuffer));
-        SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
+        // char frameBuffer[YUV_FRAME_SIZE];
+        // bzero(frameBuffer, YUV_FRAME_SIZE);
+        // size_t bytesRead = recv(socket, frameBuffer, YUV_FRAME_SIZE, MSG_WAITALL);
+        // // printf("Bytes Read: %zu, Receiver Checksum: %d\n", bytesRead, (int)netChecksum(frameBuffer));
+        // SDL_UpdateTexture(cameraTexture, NULL, frameBuffer, WIDTH);
 
-        // Uint8* yBuffer = new Uint8[WIDTH * HEIGHT];
-        // Uint8* uBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
-        // Uint8* vBuffer = new Uint8[WIDTH / 2 * HEIGHT / 2];
-        // read(socket, yBuffer, sizeof(yBuffer));
-        // read(socket, uBuffer, sizeof(uBuffer));
-        // read(socket, vBuffer, sizeof(vBuffer));
-        // SDL_UpdateYUVTexture(cameraTexture, nullptr, yBuffer, WIDTH, uBuffer, WIDTH / 2, vBuffer, WIDTH / 2);
+        // SDL_RenderClear(rend);
 
-        SDL_RenderClear(rend);
+        // SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
 
-        SDL_RenderCopy(rend, cameraTexture, NULL, NULL);
-
-        SDL_RenderPresent(rend);
+        // SDL_RenderPresent(rend);
 
         char buff[1];
         const Uint8* keystates = SDL_GetKeyboardState(NULL);
@@ -139,7 +136,7 @@ int main(){
             write(socket, buff, sizeof(buff));
         }
 
-        SDL_Delay(30);
+        // SDL_Delay(30);
 
     }
 

@@ -58,7 +58,8 @@ int main(){
     setDirection(10, dirOut);
 
 // networking stuff
-    int connection = initServer();
+    // int connection = initServer();
+    int connection = 0;
 
     pthread_t cameraThread;
     // pthread_t controlThread;

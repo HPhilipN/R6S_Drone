@@ -137,10 +137,10 @@ int main(){
             if(keystates[SDL_SCANCODE_X]){
                 buff[0] = 'q';
                 write(socket,buff,sizeof(buff));
-                SDL_DestroyTexture(cameraTexture);
-                SDL_DestroyRenderer(rend);
-                SDL_DestroyWindow(win);
-                SDL_Quit();
+                // SDL_DestroyTexture(cameraTexture);
+                // SDL_DestroyRenderer(rend);
+                // SDL_DestroyWindow(win);
+                // SDL_Quit();
                 return 0;
             }
             buff[0] = 's';

@@ -19,20 +19,26 @@ static void sleepForMs(long long delayInMs)
 void* camera(void* arg){
     int connection = *(int*)arg;
 
-    char* videoPipeCommand;
-    if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
-        perror("Failed to create videoPipeCommand");
-        pthread_exit(NULL);
-    }
-
-    // Create a videoPipe to capture camera data
-    FILE *videoPipe = popen(videoPipeCommand, "r");
-    if(!videoPipe){
-        perror("ERROR: failed to open videoPipe");
-        pthread_exit(NULL);
-    }
-
+    char* buff = "guh";
     while(1){
+        write(connection, buff, sizeof(buff));
+    }
+    pthread_exit(NULL);
+
+    // char* videoPipeCommand;
+    // if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
+    //     perror("Failed to create videoPipeCommand");
+    //     pthread_exit(NULL);
+    // }
+
+    // // Create a videoPipe to capture camera data
+    // FILE *videoPipe = popen(videoPipeCommand, "r");
+    // if(!videoPipe){
+    //     perror("ERROR: failed to open videoPipe");
+    //     pthread_exit(NULL);
+    // }
+
+    // while(1){
         // uint8_t frameBuffer[YUV_FRAME_SIZE];
         // fread(frameBuffer, YUV_FRAME_SIZE, 1, videoPipe);
 
@@ -51,7 +57,7 @@ void* camera(void* arg){
         //     read(connection, buff, sizeof(buff));
         // }while(buff[0] != 'a');
 
-        char buff[3] = {'g', 'u', 'h'};
-        write(connection, buff, sizeof(buff));
-    }
+    //     char buff[3] = {'g', 'u', 'h'};
+    //     write(connection, buff, sizeof(buff));
+    // }
 }

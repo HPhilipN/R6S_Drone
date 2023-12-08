@@ -1,5 +1,5 @@
-#ifndef NETWORK_HPP
-#define NETWORK_HPP
+#ifndef CLIENTNET_HPP
+#define CLIENTNET_HPP
 
 #include <stdio.h> 
 #include <netdb.h> 
@@ -20,5 +20,6 @@
 #include <unistd.h> // read(), write(), close()
 
 int initServer();
+int initClient();
 
 #endif

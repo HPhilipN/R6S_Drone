@@ -51,9 +51,9 @@ int main(){
 
         while (SDL_PollEvent(&event)) {
             if (event.type == SDL_QUIT) {
-                char buff[1];
-                buff[0] = 'q';
-                write(socket, buff, sizeof(buff));
+                // char buff[1];
+                // buff[0] = 'q';
+                // write(socket, buff, sizeof(buff));
                 SDL_DestroyTexture(cameraTexture);
                 SDL_DestroyRenderer(rend);
                 SDL_DestroyWindow(win);
@@ -108,6 +108,10 @@ int main(){
                 write(socket, buff, sizeof(buff));
             }
         }else{
+            if(keystates[SDL_SCANCODE_Q]){
+                buff[0] = 'q';
+                write(socket,buff,sizeof(buff));
+            }
             buff[0] = 's';
             write(socket, buff, sizeof(buff));
         }

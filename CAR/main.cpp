@@ -210,7 +210,7 @@ int main(){
             return 0;
         }
 
-        SDL_Delay(30);
+        // SDL_Delay(30);
 
         
     }

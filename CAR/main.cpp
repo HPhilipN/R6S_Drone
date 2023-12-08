@@ -116,20 +116,20 @@ int main(){
     free(videoPipeCommand);
 
     // Main loop
-    SDL_Event event;
+    // SDL_Event event;
     while (1) {
 
-        // Check for events (e.g., window close)
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_QUIT  || event.key.keysym.scancode == SDL_SCANCODE_X) {
-                SDL_DestroyTexture(cameraTexture);
-                SDL_DestroyRenderer(rend);
-                SDL_DestroyWindow(win);
-                SDL_Quit();
-                pclose(videoPipe);
-                return 0;
-            }
-        }
+        // // Check for events (e.g., window close)
+        // while (SDL_PollEvent(&event)) {
+        //     if (event.type == SDL_QUIT  || event.key.keysym.scancode == SDL_SCANCODE_X) {
+        //         SDL_DestroyTexture(cameraTexture);
+        //         SDL_DestroyRenderer(rend);
+        //         SDL_DestroyWindow(win);
+        //         SDL_Quit();
+        //         pclose(videoPipe);
+        //         return 0;
+        //     }
+        // }
 
         // // Read camera data from the videoPipe
         // char frameBuffer[YUV_FRAME_SIZE];

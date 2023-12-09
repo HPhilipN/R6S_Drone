@@ -12,7 +12,7 @@
 
 //pin 10 & 8 clockwise
 //pin 7 & 9 counter clockwise
-//TODO maybe add flags for motor state?
+
 void motorRightFWD()
 {
     
@@ -24,9 +24,9 @@ void motorRightFWD()
     setValue(9, lo);
     //pwm(motor speed)
     //L
-    //pwmController();
+    pwmController(0, 500, 64);
     //R
-    //pwmController();
+    pwmController(1, 500, 64);
 }
 
 void motorLeftFWD()
@@ -39,8 +39,10 @@ void motorLeftFWD()
     setValue(10, lo);
     setValue(9, hi);
     //pwm(motor speed)
-    //pwmController();
-    //pwmController();
+    //L
+    pwmController(0, 500, 64);
+    //R
+    pwmController(1, 500, 64);
 }
 
 void driveForward()
@@ -55,8 +57,7 @@ void driveForward()
     //pwm(motor speed)
     pwmController(0, 1000, 255);
     pwmController(1, 1000, 255);
-    pwmEnable(1);
-    pwmEnable(0);
+
 }
 
 void driveReverse()
@@ -69,10 +70,9 @@ void driveReverse()
     setValue(10, lo);
     setValue(9, hi);
     //pwm(motor speed)
-    pwmController(0, 1000, 64);
-    pwmController(1, 1000, 64);
-    pwmEnable(0);
-    pwmEnable(1);
+    pwmController(0, 500, 64);
+    pwmController(1, 500, 64);
+
 }
 
 void stop()
@@ -85,8 +85,6 @@ void stop()
     setValue(10, lo);
     setValue(9, lo);
 
-    pwmController(0, 1000, 0);
-    pwmController(1, 1000, 0);
     pwmDisable(1);
     pwmDisable(0);
 }

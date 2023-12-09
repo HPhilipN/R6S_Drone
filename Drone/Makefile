@@ -7,7 +7,7 @@ CXX := g++
 # ARC := -arch arm64
 
 # set the compiler flags
-CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image
+CXXFLAGS := `sdl2-config --libs --cflags` -ggdb3 -O0 -Wall -lSDL2_image -lpthread
 # -lSDL2 -lSDL2_image -lSDL2_net -lm
 # add header files here
 HDRS :=

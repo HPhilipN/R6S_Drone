@@ -135,7 +135,6 @@ int pwmDisable(int pwm_pin)
 // Function to set PWM for a motor (e.g., motorSpeed(1, 10000, 5000) for motor 1, 10 kHz frequency, 50% duty cycle)
 void pwmController(int pwm_pin, unsigned int frequency, unsigned int duty_cycle)
 {
-    pwmExport(pwm_pin);
     pwmSetPeriod(pwm_pin, frequency);
     pwmSetDutyCycle(pwm_pin, duty_cycle);
     pwmEnable(pwm_pin);

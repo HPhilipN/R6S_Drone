@@ -24,9 +24,9 @@ void motorRightFWD()
     setValue(9, lo);
     //pwm(motor speed)
     //L
-    pwmController(0, 500, 64);
+    pwmController(0, 500, 1024);
     //R
-    pwmController(1, 500, 64);
+    pwmController(1, 500, 1024);
 }
 
 void motorLeftFWD()
@@ -40,9 +40,9 @@ void motorLeftFWD()
     setValue(9, hi);
     //pwm(motor speed)
     //L
-    pwmController(0, 500, 64);
+    pwmController(0, 500, 1024);
     //R
-    pwmController(1, 500, 64);
+    pwmController(1, 500, 1024);
 }
 
 void driveForward()
@@ -70,8 +70,8 @@ void driveReverse()
     setValue(10, lo);
     setValue(9, hi);
     //pwm(motor speed)
-    pwmController(0, 500, 64);
-    pwmController(1, 500, 64);
+    pwmController(0, 500, 500);
+    pwmController(1, 500, 500);
 
 }
 

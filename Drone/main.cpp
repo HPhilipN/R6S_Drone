@@ -15,8 +15,6 @@
 #include "motor.h"
 #include "ctrlgpio.h"
 #include "network.hpp"
-// #include "cam.hpp"
-// #include "control.hpp"
 
 static const int WIDTH = 320;
 static const int HEIGHT = 240;
@@ -51,15 +49,11 @@ static void* netCam(void* arg){
         pthread_exit(NULL);
     }
 
-    //print statements for debugging purposes
+    // read and write camera stream
     while(stopFlag != 1){
         char frameBuffer[YUV_FRAME_SIZE];
-        fread(frameBuffer, 1, YUV_FRAME_SIZE, videoPipe);
-        // size_t readResult = fread(frameBuffer, 1, YUV_FRAME_SIZE, videoPipe);
-        // printf("Bytes Read: %zu, Sender Checksum: %d\n", readResult, (int)netChecksum(frameBuffer));
-        write(connection, frameBuffer, YUV_FRAME_SIZE);
-        // size_t writeResult = write(connection, frameBuffer, YUV_FRAME_SIZE);
-        // printf("Bytes Wrote: %zu\n", writeResult);
+        fread(frameBuffer, 1, YUV_FRAME_SIZE, videoPipe); // read from pipe
+        write(connection, frameBuffer, YUV_FRAME_SIZE); // write to socket
     }
 
     pthread_exit(NULL);
@@ -96,13 +90,11 @@ int main(){
 
 // networking stuff
     int connection = initServer();
-    // int connection = 0;
 
     pthread_t camThread;
     pthread_create(&camThread, NULL, netCam, &connection);
 
-    // Main loop
-    // SDL_Event event;
+    // loop for input and motor controls
     while (1) {
 
         char buff[1];
@@ -129,6 +121,7 @@ int main(){
         if(buff[0] == 'q'){
             stop();
             stopFlag = 1;
+            pthread_join(camThread, NULL);
             return 0;
         }
         

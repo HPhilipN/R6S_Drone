@@ -1,14 +1,14 @@
 #include "clientNet.hpp"
 #define PORT 8080
-#define SA struct sockaddr
 
 int initClient(){
 
-    int cliSock;
+    int sock;
     struct sockaddr_in servAddr;
 
-    cliSock = socket(AF_INET, SOCK_STREAM, 0);
-    if(cliSock == -1){
+    // create socket
+    sock = socket(AF_INET, SOCK_STREAM, 0);
+    if(sock == -1){
         printf("ERROR: Client socket creation failed\n");
         exit(1);
     }
@@ -16,14 +16,16 @@ int initClient(){
     bzero(&servAddr, sizeof(servAddr));
 
     servAddr.sin_family = AF_INET;
-    servAddr.sin_addr.s_addr = inet_addr("10.42.0.1");
+    servAddr.sin_addr.s_addr = inet_addr("10.42.0.1"); // server ip address
     servAddr.sin_port = htons(PORT);
 
-    if(connect(cliSock, (struct sockaddr*)&servAddr, sizeof(servAddr)) != 0){
+    // connect socket to server
+    if(connect(sock, (struct sockaddr*)&servAddr, sizeof(servAddr)) != 0){
         printf("ERROR: Connection with server failed\n");
         exit(1);
     }
     printf("Client connection with server successful\n");
 
-    return cliSock;
+    // return socket
+    return sock;
 }

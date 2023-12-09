@@ -7,24 +7,6 @@
 #include <fcntl.h>
 #include "ctrlgpio.h"
 
-
-// //write to file 
-// static void writeNreadToFile(const char* fileName, const char* value)
-// {
-// 	FILE *pFile = fopen(fileName, "w");
-// 	fprintf(pFile, "%s", value);
-// 	fclose(pFile);
-// }
-
-// //reads file
-// static int readLineFromFile(char* fileName, char* buff, unsigned int maxLength)
-// {
-// 	FILE *file = fopen(fileName, "r");
-// 	int bytes_read = getline(&buff, &maxLength, file);
-// 	fclose(file);
-// 	return bytes_read;
-// }
-
 static int readNwriteFile(const char *fname, const char *wdata)
 {
 	int fd;
@@ -36,7 +18,6 @@ static int readNwriteFile(const char *fname, const char *wdata)
 	close(fd);
 	return 0;
 }
-
 
 int gpioExport(int gpio_pin)
 {
@@ -65,14 +46,6 @@ int setValue(int gpio_pin, const char* value)
 	sprintf(path_str, "%s/gpio%d%s", pinPath, gpio_pin, pinValue);
 	return readNwriteFile(path_str, value);
 }
-
-int setEdge(int gpio_pin, const char* edge)
-{
-	char path_str[40];
-	sprintf(path_str, "%s/gpio%d%s", pinPath, gpio_pin, edge);
-	return readNwriteFile(path_str, edge);
-}
-
 
 int pinFdtoVal(int gpio_pin)
 {

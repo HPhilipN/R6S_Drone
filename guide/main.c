@@ -33,6 +33,7 @@ int main(){
     char* command;
     if(asprintf(&command, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1){
         printf("rpicam-vid command ERROR\n");
+        free(command);
         exit(1);
     }
 
@@ -40,6 +41,7 @@ int main(){
     FILE *pipe = popen(command, "r");
     if(!pipe){
         printf("Pipe creation error\n");
+        pclose(pipe);
         exit(1);
     }
 

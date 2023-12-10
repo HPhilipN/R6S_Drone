@@ -38,7 +38,7 @@ static void* netCam(void* arg){
     // Command to capture camera data
     char* videoPipeCommand;
     if (asprintf(&videoPipeCommand, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1) {
-        perror("Failed to create videoPipeCommand");
+        printf("Error creating videoPipeCommand\n");
         pthread_exit(NULL);
     }
     free(videoPipeCommand);
@@ -46,7 +46,7 @@ static void* netCam(void* arg){
     // Create a videoPipe to capture camera data
     FILE *videoPipe = popen(videoPipeCommand, "r");
     if (!videoPipe) {
-        perror("Error opening videoPipe");
+        printf("Error opening videoPipe\n");
         pthread_exit(NULL);
     }
 

@@ -31,7 +31,7 @@ int main(){
 
     // command to output raspiberry pi camera in yuv420 format
     char* command;
-    if(asprintf(&command, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE)){
+    if(asprintf(&command, "rpicam-vid --codec yuv420 -t 0 --width %d --height %d -o - -n --framerate %d", WIDTH, HEIGHT, FRAMERATE) == -1){
         printf("rpicam-vid command ERROR\n");
         exit(1);
     }

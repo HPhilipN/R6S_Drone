@@ -51,6 +51,7 @@ int main(){
         while(SDL_PollEvent(&event)){
             if(event.type == SDL_QUIT){
                 // clean up
+                free(command);
                 pclose(pipe);
                 SDL_DestroyTexture(texture);
                 SDL_DestroyRenderer(renderer);
@@ -92,6 +93,7 @@ int main(){
 
 
     // clean up
+    free(command);
     pclose(pipe);
     SDL_DestroyTexture(texture);
     SDL_DestroyRenderer(renderer);

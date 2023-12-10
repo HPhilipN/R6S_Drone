@@ -41,7 +41,6 @@ static void* netCam(void* arg){
         printf("Error creating videoPipeCommand\n");
         pthread_exit(NULL);
     }
-    free(videoPipeCommand);
 
     // Create a videoPipe to capture camera data
     FILE *videoPipe = popen(videoPipeCommand, "r");
@@ -57,6 +56,7 @@ static void* netCam(void* arg){
         write(connection, frameBuffer, YUV_FRAME_SIZE); // write to socket
     }
 
+    free(videoPipeCommand);
     pthread_exit(NULL);
 }
 

@@ -30,17 +30,13 @@ int main(){
     if (SDL_Init(SDL_INIT_EVERYTHING) != 0) {
         printf("error initializing SDL: %s\n", SDL_GetError());
     }
-    SDL_Window* win = SDL_CreateWindow("R6 Drone", // creates a window
-                                       SDL_WINDOWPOS_CENTERED,
-                                       SDL_WINDOWPOS_CENTERED,
-                                       WIDTH, HEIGHT, 0);
- 
+    // creates a window
+    SDL_Window* win = SDL_CreateWindow("R6 Drone", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, 0);
     
-    // triggers the program that controls
-    // your graphics hardware and sets flags
+    // enables hardware acceleration
     Uint32 render_flags = SDL_RENDERER_ACCELERATED;
  
-    // creates a renderer to render our images
+    // creates a renderer
     SDL_Renderer* rend = SDL_CreateRenderer(win, -1, render_flags);
  
     // Set up SDL texture to hold the camera stream
